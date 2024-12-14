@@ -1,4 +1,4 @@
-﻿package ru.liga.util;
+package ru.liga.util;
 
 import lombok.RequiredArgsConstructor;
 

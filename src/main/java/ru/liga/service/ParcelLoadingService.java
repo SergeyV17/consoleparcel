@@ -1,30 +1,33 @@
-﻿package ru.liga.service;
+package ru.liga.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ru.liga.entity.Truck;
 import ru.liga.model.enums.LoadingMode;
 import ru.liga.util.TxtParser;
+
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 public class ParcelLoadingService {
-
     private final TxtParser txtParser;
 
-    public String loadParcelsIntoTrucks(String filePath, LoadingMode mode) {
-        var cargo = txtParser.parseCargoFromFile(filePath);
-        if (cargo.isEmpty()) {
-            log.error("Не обнаружено валидного груза в файле {}", filePath);
-            return "";
+    public List<Truck> loadParcelsIntoTrucks(String filePath, LoadingMode mode) {
+        var parcels = txtParser.parseCargoFromFile(filePath);
+        if (parcels.isEmpty()) {
+            log.error("Parcels not found in {}", filePath);
+            return Collections.emptyList();
         }
 
         if (mode == LoadingMode.LOADING_TO_CAPACITY) {
             // TODO реализовать
         }
         else if (mode == LoadingMode.ONE_BY_ONE) {
-            // TODO реализовать
+            return parcels.stream().map(Truck::new).toList();
         }
 
-        return "true";
+        return Collections.emptyList();
     }
 }

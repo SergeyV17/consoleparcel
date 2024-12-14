@@ -1,4 +1,4 @@
-﻿package ru.liga.model.enums;
+package ru.liga.model.enums;
 
 public enum LoadingMode {
     NONE,

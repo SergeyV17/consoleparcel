@@ -1,4 +1,4 @@
-﻿package ru.liga.controller;
+package ru.liga.controller;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -20,6 +20,8 @@ public class ConsoleController {
     private final Pattern IMPORT_COMMAND_PATTERN = Pattern.compile("(.+\\.txt)");
     private final Pattern LOADING_MODE_PATTERN = Pattern.compile("(loading to capacity|one by one)");
 
+    private LoadingMode mode;
+
     public void listen() {
         var scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
@@ -28,21 +30,22 @@ public class ConsoleController {
                 System.exit(0);
             }
 
-            // TODO подумать как лучше вынести
-            LoadingMode mode = LoadingMode.NONE;
+            // TODO подумать как лучше вынести, мб паттерн стратегия? Или пока не мудрить
             if (LOADING_MODE_PATTERN.matcher(command).matches()) {
                 switch (command) {
                     case "loading to capacity" -> mode = LoadingMode.LOADING_TO_CAPACITY;
                     case "one by one" -> mode = LoadingMode.ONE_BY_ONE;
-                    default -> throw new IllegalStateException("Невалидный режим погрузки: " + command);
+                    default -> throw new IllegalStateException("Invalid loading mode: " + command);
                 }
 
-                log.info("Выбран режим погрузки: " + mode);
+                System.out.println("Selected mode: " + mode);
+                log.info("Selected mode: " + mode);
+                continue;
             }
 
             if (mode == LoadingMode.NONE) {
-                System.out.println("Сначала выберите режим погрузки: " + command);
-                log.error("Пользователь не выбрал режим погрузки: " + command);
+                System.out.println("First select the loading mode" + command);
+                log.error("User doesn't select loading mode" + command);
                 continue;
             }
 
@@ -51,22 +54,23 @@ public class ConsoleController {
             if (importCommandMatcher.matches()) {
                 String filePath = importCommandMatcher.group(1);
 
-                log.info("Старт погрузки посылок в грузовики...");
+                log.info("Start loading parcels into trucks...");
                 var cargosWithinTrucks = parcelLoadingService.loadParcelsIntoTrucks(filePath, mode);
                 if (cargosWithinTrucks.isEmpty()) {
-                    System.out.println("Не найдено валидного груза. Повторите попытку с другим файлом");
-                    log.error("В файле {} не обнаружено валидного груза.", filePath);
+                    System.out.println("Valid parcels not found. Check the file: " + filePath);
+                    log.error("File {} don't have valid parcels", filePath);
                     continue;
                 }
 
-                log.info("Печать грузовиков в консоль...");
+                log.info("Print trucks into console...");
                 printingService.PrintTrucks(cargosWithinTrucks);
 
-                log.info("Погрузка посылок в грузовики завершена.");
+                log.info("Loading parcels into trucks completed");
+                return;
             }
 
-            System.out.println("Некорректная команда: " + command);
-            log.error("Пользователь ввел некорректную команду: " + command);
+            System.out.println("Incorrect command: " + command);
+            log.error("User enter incorrect command: " + command);
         }
     }
 

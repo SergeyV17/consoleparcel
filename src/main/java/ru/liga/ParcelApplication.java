@@ -13,18 +13,17 @@ import ru.liga.util.TxtReader;
 public class ParcelApplication {
 
     public static void main(String[] args) {
-        log.info("Стартуем приложение...");
+        log.info("App starting...");
 
-        System.out.println("Программа \"Парсер посылок\". Версия 1.0.0. ");
-        System.out.println("Как работать с программой: ");
-        System.out.println("1. Выберите алгоритм погрузки посылок");
-        System.out.println("    - \"one by one\" - 1 грузовик 1 посылка");
-        System.out.println("    - \"loading to capacity\" - погрузка посылок под завязку в один грузовик");
-        System.out.println("2. Введите команду \"import\" и укажите путь к файлу, чтобы погрузить посылки.");
-        System.out.println("3. Введите команду \"exit\" или Ctrl + C, для выхода из приложения.");
+        System.out.println("Program parcel loader. Version 1.0.0");
+        System.out.println("How program works: ");
+        System.out.println("1. Choose loading mode:");
+        System.out.println("    - \"one by one\" - 1 truck 1 parcel");
+        System.out.println("    - \"loading to capacity\" - load every truck to full capacity");
+        System.out.println("2. Enter command \"import\" and set file path with parcels");
+        System.out.println("3. Enter command \"exit\" or press \"Ctrl + C\" for exit from app.");
 
         ParcelApplication.start();
-//        SpringApplication.run(ParcelApplication.class, args); TODO посмотреть надо ли стартовать через Spring
     }
 
     private static void start() {

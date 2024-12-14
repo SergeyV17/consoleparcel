@@ -1,4 +1,4 @@
-﻿package ru.liga.util;
+package ru.liga.util;
 
 import lombok.extern.slf4j.Slf4j;
 
