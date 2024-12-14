@@ -2,7 +2,9 @@ package ru.liga.util;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class TxtParser {
@@ -14,6 +16,6 @@ public class TxtParser {
                 .stream()
                 .filter(line -> !line.isEmpty())
                 .map(String::trim)
-                .toList();
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 }
