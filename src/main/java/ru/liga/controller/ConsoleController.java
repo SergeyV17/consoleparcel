@@ -30,16 +30,8 @@ public class ConsoleController {
                 System.exit(0);
             }
 
-            // TODO подумать как лучше вынести, мб паттерн стратегия? Или пока не мудрить
             if (LOADING_MODE_PATTERN.matcher(command).matches()) {
-                switch (command) {
-                    case "loading to capacity" -> mode = LoadingMode.LOADING_TO_CAPACITY;
-                    case "one by one" -> mode = LoadingMode.ONE_BY_ONE;
-                    default -> throw new IllegalStateException("Invalid loading mode: " + command);
-                }
-
-                System.out.println("Selected mode: " + mode);
-                log.info("Selected mode: " + mode);
+                SelectModeCommand(command);
                 continue;
             }
 
@@ -49,29 +41,43 @@ public class ConsoleController {
                 continue;
             }
 
-            // TODO подумать как лучше вынести
             Matcher importCommandMatcher = IMPORT_COMMAND_PATTERN.matcher(command);
             if (importCommandMatcher.matches()) {
-                String filePath = importCommandMatcher.group(1);
-
-                log.info("Start loading parcels into trucks...");
-                var cargosWithinTrucks = parcelLoadingService.loadParcelsIntoTrucks(filePath, mode);
-                if (cargosWithinTrucks.isEmpty()) {
-                    System.out.println("Valid parcels not found. Check the file: " + filePath);
-                    log.error("File {} don't have valid parcels", filePath);
-                    continue;
-                }
-
-                log.info("Print trucks into console...");
-                printingService.PrintTrucks(cargosWithinTrucks);
-
-                log.info("Loading parcels into trucks completed");
+                if (ImportCommand(importCommandMatcher)) continue;
                 return;
             }
 
             System.out.println("Incorrect command: " + command);
-            log.error("User enter incorrect command: " + command);
+            log.error("User enter incorrect command: {}", command);
         }
     }
 
+    private boolean ImportCommand(Matcher importCommandMatcher) {
+        String filePath = importCommandMatcher.group(1);
+
+        log.info("Start loading parcels into trucks...");
+        var cargosWithinTrucks = parcelLoadingService.loadParcelsIntoTrucks(filePath, mode);
+        if (cargosWithinTrucks.isEmpty()) {
+            System.out.println("Valid parcels not found. Check the file: " + filePath);
+            log.error("File {} don't have valid parcels", filePath);
+            return true;
+        }
+
+        log.info("Print trucks into console...");
+        printingService.PrintTrucks(cargosWithinTrucks);
+
+        log.info("Loading parcels into trucks completed");
+        return false;
+    }
+
+    private void SelectModeCommand(String command) {
+        switch (command) {
+            case "loading to capacity" -> mode = LoadingMode.LOADING_TO_CAPACITY;
+            case "one by one" -> mode = LoadingMode.ONE_BY_ONE;
+            default -> throw new IllegalStateException("Invalid loading mode: " + command);
+        }
+
+        System.out.println("Selected mode: " + mode);
+        log.info("Selected mode: {}", mode);
+    }
 }

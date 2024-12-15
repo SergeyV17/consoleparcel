@@ -1,7 +1,10 @@
-package ru.liga.entity;
+package ru.liga.model.entity;
+
+import lombok.Getter;
 
 import java.util.HashMap;
 
+@Getter
 public class Truck {
     public static final int MAX_HEIGHT = 6;
     public static final int MAX_WIDTH = 6;
@@ -23,9 +26,8 @@ public class Truck {
 
     @Override
     public String toString() {
-
         var stringBuilder = new StringBuilder();
-        for (int i = 0; i < parcels.size(); i++) {
+        for (int i = MAX_HEIGHT - 1; i >= 0; i--) {
             stringBuilder.append("+");
             stringBuilder.append(parcels.getOrDefault(i, ""));
             stringBuilder.append(" ".repeat(MAX_WIDTH - parcels.getOrDefault(i, "").length()));
@@ -33,27 +35,6 @@ public class Truck {
         }
         stringBuilder.append("++++++++\n\n");
 
-        // TODO удалить
-//        var stringBuilder = new StringBuilder();
-//        stringBuilder.append("+      +\n");
-//        stringBuilder.append("+      +\n");
-//        stringBuilder.append("+      +\n");
-//        stringBuilder.append("+      +\n");
-//        stringBuilder.append("+      +\n");
-//        stringBuilder.append("+");
-//        stringBuilder.append(parcels);
-//        stringBuilder.append(calculateRow(0));
-//        stringBuilder.append("+\n");
-//        stringBuilder.append("++++++++\n\n");
         return stringBuilder.toString();
     }
-
-//    private String calculateRow(int key) {
-//
-//        for (int i = 0; i < parcels.size(); i++) {
-//
-//        }
-//
-//        return " ".repeat(MAX_WIDTH - parcels.getOrDefault(key, "").length());
-//    }
 }
