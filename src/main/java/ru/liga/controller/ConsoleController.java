@@ -53,21 +53,27 @@ public class ConsoleController {
     }
 
     private boolean ImportCommand(Matcher importCommandMatcher) {
-        String filePath = importCommandMatcher.group(1);
+        try {
+            String filePath = importCommandMatcher.group(1);
 
-        log.info("Start loading parcels into trucks...");
-        var cargosWithinTrucks = parcelLoadingService.loadParcelsIntoTrucks(filePath, mode);
-        if (cargosWithinTrucks.isEmpty()) {
-            System.out.println("Valid parcels not found. Check the file: " + filePath);
-            log.error("File {} don't have valid parcels", filePath);
-            return true;
+            log.info("Start loading parcels into trucks...");
+            var cargosWithinTrucks = parcelLoadingService.loadParcelsIntoTrucks(filePath, mode);
+            if (cargosWithinTrucks.isEmpty()) {
+                System.out.println("Valid parcels not found. Check the file: " + filePath);
+                log.error("File {} don't have valid parcels", filePath);
+                return true;
+            }
+
+            log.info("Print trucks into console...");
+            printingService.PrintTrucks(cargosWithinTrucks);
+
+            log.info("Loading parcels into trucks completed");
+            return false;
+        } catch (Exception e) {
+            System.out.println("Error during loading parcels into trucks. Try to again with another file");
+            log.error("Error during loading parcels into trucks", e);
+            return false;
         }
-
-        log.info("Print trucks into console...");
-        printingService.PrintTrucks(cargosWithinTrucks);
-
-        log.info("Loading parcels into trucks completed");
-        return false;
     }
 
     private void SelectModeCommand(String command) {

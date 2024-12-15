@@ -7,6 +7,7 @@ import ru.liga.service.ParcelLoadingService;
 import ru.liga.service.PrintingService;
 import ru.liga.util.TxtParser;
 import ru.liga.util.TxtReader;
+import ru.liga.validation.FileValidator;
 
 @Slf4j
 @SpringBootApplication
@@ -29,7 +30,7 @@ public class ParcelApplication {
     private static void start() {
         ConsoleController consoleController =
                 new ConsoleController(
-                        new ParcelLoadingService(new TxtParser(new TxtReader())),
+                        new ParcelLoadingService(new TxtParser(new TxtReader(), new FileValidator())),
                         new PrintingService());
         consoleController.listen();
     }

@@ -1,8 +1,8 @@
 package ru.liga.util;
 
 import lombok.RequiredArgsConstructor;
+import ru.liga.validation.FileValidator;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,12 +10,17 @@ import java.util.stream.Collectors;
 public class TxtParser {
     private final TxtReader txtReader;
 
+    private final FileValidator fileValidator;
+
     public List<String> parseCargoFromFile(String filePath) {
-        return txtReader
-                .readAllLines(filePath)
+        var fileLines = txtReader.readAllLines(filePath)
                 .stream()
                 .filter(line -> !line.isEmpty())
                 .map(String::trim)
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toList());
+
+        fileValidator.validateFileLines(fileLines);
+
+        return fileLines;
     }
 }
