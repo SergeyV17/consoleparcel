@@ -1,12 +1,11 @@
-package ru.liga;
+package ru.liga.parcel.service;
 
 import org.junit.jupiter.api.Test;
-import ru.liga.model.entity.Truck;
-import ru.liga.model.enums.LoadingMode;
-import ru.liga.service.ParcelLoadingService;
-import ru.liga.util.TxtParser;
-import ru.liga.util.TxtReader;
-import ru.liga.validation.FileValidator;
+import ru.liga.parcel.model.entity.Truck;
+import ru.liga.parcel.model.enums.LoadingMode;
+import ru.liga.parcel.util.TxtParser;
+import ru.liga.parcel.util.TxtReader;
+import ru.liga.parcel.validation.FileValidator;
 
 import java.util.HashMap;
 import java.util.List;

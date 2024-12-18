@@ -1,7 +1,7 @@
-package ru.liga.util;
+package ru.liga.parcel.util;
 
 import lombok.RequiredArgsConstructor;
-import ru.liga.validation.FileValidator;
+import ru.liga.parcel.validation.FileValidator;
 
 import java.util.List;
 import java.util.stream.Collectors;

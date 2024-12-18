@@ -1,14 +1,15 @@
-package ru.liga.service;
+package ru.liga.parcel.service;
 
-import ru.liga.model.entity.Truck;
+import lombok.extern.slf4j.Slf4j;
+import ru.liga.parcel.model.entity.Truck;
 
 import java.util.List;
 
+@Slf4j
 public class PrintingService {
     public void PrintTrucks(List<Truck> trucks) {
         for (Truck truck : trucks) {
-            String string = truck.toString();
-            System.out.print(string);
+            log.info(truck.toString());
         }
     }
 }

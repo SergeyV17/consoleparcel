@@ -1,4 +1,4 @@
-package ru.liga.model.entity;
+package ru.liga.parcel.model.entity;
 
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
-package ru.liga.validation;
+package ru.liga.parcel.validation;
 
-import ru.liga.model.entity.Truck;
+import ru.liga.parcel.model.entity.Truck;
 
 import java.util.ArrayList;
 import java.util.List;

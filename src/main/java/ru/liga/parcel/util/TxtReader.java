@@ -1,4 +1,4 @@
-package ru.liga.util;
+package ru.liga.parcel.util;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,11 +13,6 @@ import java.util.List;
 public class TxtReader {
     public List<String> readAllLines(String txtPath) {
         try {
-            URL resource = getClass().getClassLoader().getResource(txtPath);
-            if (resource != null) {
-                return Files.readAllLines(Paths.get(resource.toURI()));
-            }
-
             return Files.readAllLines(Paths.get(txtPath));
         }
         catch (FileNotFoundException ex) {

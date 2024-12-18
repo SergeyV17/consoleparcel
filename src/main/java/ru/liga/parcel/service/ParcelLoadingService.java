@@ -1,40 +1,33 @@
-package ru.liga.service;
+package ru.liga.parcel.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.liga.model.entity.Truck;
-import ru.liga.model.enums.LoadingMode;
-import ru.liga.util.ListExtensions;
-import ru.liga.util.TxtParser;
+import ru.liga.parcel.model.entity.Truck;
+import ru.liga.parcel.model.enums.LoadingMode;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @RequiredArgsConstructor
 public class ParcelLoadingService {
-    private final TxtParser txtParser;
-
-    public List<Truck> loadParcelsIntoTrucks(String filePath, LoadingMode mode) {
-        var parcels = txtParser.parseCargoFromFile(filePath);
-        if (parcels.isEmpty()) {
-            log.error("Parcels not found in {}", filePath);
-            return Collections.emptyList();
-        }
-
+    public List<Truck> loadParcelsIntoTrucks(List<String> parcels, LoadingMode mode) {
         if (mode == LoadingMode.LOADING_TO_CAPACITY) {
-            return getTrucksByLoadingToCapacity(parcels);
+            return createListOfTrucksLoadedToCapacity(parcels);
         }
         else if (mode == LoadingMode.ONE_BY_ONE) {
             return parcels.stream().map(Truck::new).toList();
         }
-
-        return Collections.emptyList();
+        else {
+            throw new IllegalStateException("Invalid loading mode: " + mode);
+        }
     }
 
-    private static List<Truck> getTrucksByLoadingToCapacity(List<String> parcels) {
+    private List<Truck> createListOfTrucksLoadedToCapacity(List<String> parcels) {
         var concatenatedCarcases = new ArrayList<String>();
 
         for (int currentWidth = Truck.MAX_WIDTH; currentWidth > 0 ; currentWidth--) {
@@ -66,8 +59,9 @@ public class ParcelLoadingService {
             }
         }
 
-        return ListExtensions.tile(concatenatedCarcases, Truck.MAX_HEIGHT)
-                .stream().map(batch -> {
+        return divideOnSubCollectionsByMaxHeight(concatenatedCarcases)
+                .stream()
+                .map(batch -> {
                     var map = new HashMap<Integer, String>();
                     for (int i = 0; i < batch.size(); i++) {
                         map.put(i, batch.get(i));
@@ -77,5 +71,16 @@ public class ParcelLoadingService {
                 })
                 .map(Truck::new)
                 .toList();
+    }
+
+    private  <T> List<List<T>> divideOnSubCollectionsByMaxHeight(List<T> source) {
+        return new ArrayList<>(IntStream.range(0, source.size())
+                .boxed()
+                .collect(Collectors.groupingBy(
+                        index -> index / Truck.MAX_HEIGHT,
+                        LinkedHashMap::new,
+                        Collectors.mapping(source::get, Collectors.toList())
+                ))
+                .values());
     }
 }
