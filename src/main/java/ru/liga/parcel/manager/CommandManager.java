@@ -13,15 +13,15 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class CommandManager {
 
-    private final Pattern PRINT_COMMAND_PATTERN = Pattern.compile("(.+\\.txt)");
+    private final Pattern IMPORT_COMMAND_PATTERN = Pattern.compile("(.+\\.txt)");
     private final Pattern SELECT_MODE_PATTERN = Pattern.compile("(loading to capacity|one by one)");
 
     private final TxtParser txtParser;
     private final ParcelLoadingService parcelLoadingService;
     private final PrintingService printingService;
 
-    public void printCommand(String command, LoadingMode mode) {
-        var matcher = PRINT_COMMAND_PATTERN.matcher(command);
+    public void importCommand(String command, LoadingMode mode) {
+        var matcher = IMPORT_COMMAND_PATTERN.matcher(command);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Invalid command: " + command);
         }

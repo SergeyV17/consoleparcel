@@ -29,6 +29,6 @@ public class ConsoleController {
         var mode = commandManager.selectModeCommand(line);
 
         line = scanner.nextLine();
-        commandManager.printCommand(line, mode);
+        commandManager.importCommand(line, mode);
     }
 }

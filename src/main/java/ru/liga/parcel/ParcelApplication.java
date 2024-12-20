@@ -9,7 +9,6 @@ import ru.liga.parcel.util.TxtReader;
 import ru.liga.parcel.validation.FileValidator;
 
 public class ParcelApplication {
-
     public static void main(String[] args) {
         var consoleController = new ConsoleController(
                 new CommandManager(new TxtParser(new TxtReader(), new FileValidator()),

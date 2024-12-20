@@ -1,11 +1,13 @@
 package ru.liga.parcel.validation;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.liga.parcel.model.entity.Truck;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class FileValidator {
     private final Pattern FILE_LINE_PATTERN = Pattern.compile("^(\\d)\\1*$");
 
@@ -26,7 +28,9 @@ public class FileValidator {
         });
 
         if (!errors.isEmpty()) {
-            throw new IllegalArgumentException(String.join("\n", errors));
+            var errorsString = String.join("\r\n", errors);
+            log.error(errorsString);
+            throw new IllegalArgumentException(errorsString);
         }
     }
 }
