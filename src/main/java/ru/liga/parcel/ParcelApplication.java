@@ -1,6 +1,7 @@
 package ru.liga.parcel;
 
 import ru.liga.parcel.controller.ConsoleController;
+import ru.liga.parcel.factory.TruckFactory;
 import ru.liga.parcel.manager.CommandManager;
 import ru.liga.parcel.service.ParcelLoadingService;
 import ru.liga.parcel.service.PrintingService;
@@ -12,7 +13,7 @@ public class ParcelApplication {
     public static void main(String[] args) {
         var consoleController = new ConsoleController(
                 new CommandManager(new TxtParser(new TxtReader(), new FileValidator()),
-                                new ParcelLoadingService(),
+                                new ParcelLoadingService(new TruckFactory()),
                                 new PrintingService()));
         consoleController.start();
     }

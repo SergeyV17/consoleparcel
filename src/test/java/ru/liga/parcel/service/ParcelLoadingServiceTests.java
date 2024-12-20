@@ -1,6 +1,7 @@
 package ru.liga.parcel.service;
 
 import org.junit.jupiter.api.Test;
+import ru.liga.parcel.factory.TruckFactory;
 import ru.liga.parcel.model.entity.Truck;
 import ru.liga.parcel.model.enums.LoadingMode;
 
@@ -14,7 +15,7 @@ class ParcelLoadingServiceTests {
 
     @Test
     void loadParcelsIntoTrucks_loadByOneByOneMode_createTrucksWithOneParcel() {
-        ParcelLoadingService service = new ParcelLoadingService();
+        ParcelLoadingService service = new ParcelLoadingService(new TruckFactory());
 
         List<Truck> trucks = service.loadParcelsIntoTrucks(createParcels(), LoadingMode.ONE_BY_ONE);
 
@@ -23,7 +24,7 @@ class ParcelLoadingServiceTests {
 
     @Test
     void loadParcelsIntoTrucks_loadByLoadingToCapacityMode_createTrucksWithSeveralRowsAndBottomMustBeGreater() {
-        ParcelLoadingService service = new ParcelLoadingService();
+        ParcelLoadingService service = new ParcelLoadingService(new TruckFactory());
 
         List<Truck> trucks = service.loadParcelsIntoTrucks(createParcels(), LoadingMode.LOADING_TO_CAPACITY);
 
