@@ -6,8 +6,8 @@ import ru.liga.parcel.model.entity.Cargo;
 import ru.liga.parcel.model.entity.Truck;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -59,13 +59,25 @@ public class FullCapacityLoadingProcessor implements LoadingProcessor {
     }
 
     private <T> List<List<T>> divideOnSubCollectionsByTruckMaxHeight(List<T> source) {
-        return new ArrayList<>(IntStream.range(0, source.size())
+        return groupIndicesByTruckMaxHeight(source.size())
+                .values().stream()
+                .map(indices -> mapIndicesToElements(source, indices))
+                .collect(Collectors.toList());
+    }
+
+    private Map<Integer, List<Integer>> groupIndicesByTruckMaxHeight(int size) {
+        return IntStream.range(0, size)
                 .boxed()
-                .collect(Collectors.groupingBy(
-                        index -> index / Truck.MAX_HEIGHT,
-                        LinkedHashMap::new,
-                        Collectors.mapping(source::get, Collectors.toList())
-                ))
-                .values());
+                .collect(Collectors.groupingBy(this::getTruckMaxHeightGroups));
+    }
+
+    private int getTruckMaxHeightGroups(int size) {
+        return size / Truck.MAX_HEIGHT;
+    }
+
+    private <T> List<T> mapIndicesToElements(List<T> source, List<Integer> indices) {
+        return indices.stream()
+                .map(source::get)
+                .collect(Collectors.toList());
     }
 }

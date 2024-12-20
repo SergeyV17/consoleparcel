@@ -1,7 +1,6 @@
 package ru.liga.parcel.manager;
 
 import lombok.RequiredArgsConstructor;
-import ru.liga.parcel.model.entity.Cargo;
 import ru.liga.parcel.model.entity.Truck;
 import ru.liga.parcel.model.enums.LoadingMode;
 import ru.liga.parcel.processor.FullCapacityLoadingProcessor;
