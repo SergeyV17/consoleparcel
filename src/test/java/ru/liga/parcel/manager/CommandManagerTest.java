@@ -9,21 +9,20 @@ import ru.liga.parcel.util.TxtParser;
 
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 public class CommandManagerTest {
     @Test
-    void importCommand_validCommand_parsesCargoFromFile() {
+    public void testImportCommand_validCommand_parsesCargoFromFile() {
+        TxtParser txtParser = Mockito.mock(TxtParser.class);
+        ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
+        PrintingService printingService = Mockito.mock(PrintingService.class);
+        CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "path/to/file.txt";
-        var txtParser = Mockito.mock(TxtParser.class);
-        var commandManager = new CommandManager(
-                txtParser,
-                Mockito.mock(ParcelLoadingService.class),
-                Mockito.mock(PrintingService.class));
-
-        when(txtParser.parseCargoFromFile(any())).thenReturn(List.of("parcel1", "parcel2"));
+        List<String> parcels = List.of("parcel1", "parcel2");
+        Mockito.when(txtParser.parseCargoFromFile(Mockito.any())).thenReturn(parcels);
 
         commandManager.importCommand(command, LoadingMode.ONE_BY_ONE);
 
@@ -31,13 +30,12 @@ public class CommandManagerTest {
     }
 
     @Test
-    void importCommand_invalidCommand_throwsIllegalArgumentException() {
+    public void testImportCommand_invalidCommand_throwsIllegalArgumentException() {
+        TxtParser txtParser = Mockito.mock(TxtParser.class);
+        ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
+        PrintingService printingService = Mockito.mock(PrintingService.class);
+        CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "invalid command";
-
-        var commandManager = new CommandManager(
-                Mockito.mock(TxtParser.class),
-                Mockito.mock(ParcelLoadingService.class),
-                Mockito.mock(PrintingService.class));
 
         assertThatThrownBy(() -> commandManager.importCommand(command, LoadingMode.ONE_BY_ONE))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -45,16 +43,13 @@ public class CommandManagerTest {
     }
 
     @Test
-    void importCommand_emptyParcels_throwsIllegalArgumentException() {
+    public void testImportCommand_emptyParcels_throwsIllegalArgumentException() {
+        TxtParser txtParser = Mockito.mock(TxtParser.class);
+        ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
+        PrintingService printingService = Mockito.mock(PrintingService.class);
+        CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "path/to/file.txt";
-
-        var txtParser = Mockito.mock(TxtParser.class);
-        var commandManager = new CommandManager(
-                txtParser,
-                Mockito.mock(ParcelLoadingService.class),
-                Mockito.mock(PrintingService.class));
-
-        when(txtParser.parseCargoFromFile(any())).thenReturn(List.of());
+        Mockito.when(txtParser.parseCargoFromFile(Mockito.any())).thenReturn(List.of());
 
         assertThatThrownBy(() -> commandManager.importCommand(command, LoadingMode.ONE_BY_ONE))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -62,12 +57,12 @@ public class CommandManagerTest {
     }
 
     @Test
-    void selectModeCommand_validCommand_returnsLoadingMode() {
+    public void testSelectModeCommand_validCommand_returnsLoadingMode() {
+        TxtParser txtParser = Mockito.mock(TxtParser.class);
+        ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
+        PrintingService printingService = Mockito.mock(PrintingService.class);
+        CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "loading to capacity";
-        var commandManager = new CommandManager(
-                Mockito.mock(TxtParser.class),
-                Mockito.mock(ParcelLoadingService.class),
-                Mockito.mock(PrintingService.class));
 
         LoadingMode mode = commandManager.selectModeCommand(command);
 
@@ -75,12 +70,12 @@ public class CommandManagerTest {
     }
 
     @Test
-    void selectModeCommand_invalidCommand_throwsIllegalArgumentException() {
+    public void testSelectModeCommand_invalidCommand_throwsIllegalArgumentException() {
+        TxtParser txtParser = Mockito.mock(TxtParser.class);
+        ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
+        PrintingService printingService = Mockito.mock(PrintingService.class);
+        CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "invalid command";
-        var commandManager = new CommandManager(
-                Mockito.mock(TxtParser.class),
-                Mockito.mock(ParcelLoadingService.class),
-                Mockito.mock(PrintingService.class));
 
         assertThatThrownBy(() -> commandManager.selectModeCommand(command))
                 .isInstanceOf(IllegalArgumentException.class)
