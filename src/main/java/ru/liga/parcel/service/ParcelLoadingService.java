@@ -29,7 +29,6 @@ public class ParcelLoadingService {
 
     private List<Truck> createListOfTrucksLoadedToCapacity(List<String> parcels) {
         var concatenatedCarcases = new ArrayList<String>();
-
         for (int currentWidth = Truck.MAX_WIDTH; currentWidth > 0 ; currentWidth--) {
             for (int i = 0; i < parcels.size(); i++) {
 
@@ -59,6 +58,10 @@ public class ParcelLoadingService {
             }
         }
 
+        return createTrucksByConcatenatedStringCarcases(concatenatedCarcases);
+    }
+
+    private List<Truck> createTrucksByConcatenatedStringCarcases(ArrayList<String> concatenatedCarcases) {
         return divideOnSubCollectionsByMaxHeight(concatenatedCarcases)
                 .stream()
                 .map(batch -> {
@@ -73,7 +76,7 @@ public class ParcelLoadingService {
                 .toList();
     }
 
-    private  <T> List<List<T>> divideOnSubCollectionsByMaxHeight(List<T> source) {
+    private <T> List<List<T>> divideOnSubCollectionsByMaxHeight(List<T> source) {
         return new ArrayList<>(IntStream.range(0, source.size())
                 .boxed()
                 .collect(Collectors.groupingBy(

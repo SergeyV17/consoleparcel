@@ -35,7 +35,7 @@ class ParcelLoadingServiceTests {
         });
     }
 
-    private static ArrayList<String> createParcels() {
+    private ArrayList<String> createParcels() {
         return new ArrayList<>() {
             {
                 add("1");
