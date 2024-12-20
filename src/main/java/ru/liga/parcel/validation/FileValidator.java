@@ -12,7 +12,7 @@ public class FileValidator {
     public static final String DELIMITER = "\r\n";
     private final Pattern FILE_LINE_PATTERN = Pattern.compile("^(\\d)\\1*$");
 
-    public void validateFileLines(List<String> parcel) {
+    public void validate(List<String> parcel) {
         if (parcel.isEmpty()) {
             throw new IllegalArgumentException("File lines cannot be empty.");
         }

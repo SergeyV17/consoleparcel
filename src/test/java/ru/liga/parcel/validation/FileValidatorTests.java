@@ -13,39 +13,39 @@ import static org.assertj.core.api.Fail.fail;
 
 public class FileValidatorTests {
     @Test
-    void validateFileLines_EmptyFileLines_ThrowsIllegalArgumentException() {
+    void validate_EmptyFileLines_ThrowsIllegalArgumentException() {
         var validator = new FileValidator();
         List<String> fileLines = new ArrayList<>();
-        assertThatCode(() -> validator.validateFileLines(fileLines)).isInstanceOf(IllegalArgumentException.class);
+        assertThatCode(() -> validator.validate(fileLines)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void validateFileLines_ValidFileLines_NoErrors() {
+    void validate_ValidFileLines_NoErrors() {
         var validator = new FileValidator();
         List<String> fileLines = Arrays.asList("111", "222", "333");
-        validator.validateFileLines(fileLines);
+        validator.validate(fileLines);
     }
 
     @Test
-    void validateFileLines_InvalidFileLines_ThrowsIllegalArgumentException() {
+    void validate_InvalidFileLines_ThrowsIllegalArgumentException() {
         var validator = new FileValidator();
         List<String> fileLines = Arrays.asList("123", "abc", "456");
-        assertThatCode(() -> validator.validateFileLines(fileLines)).isInstanceOf(IllegalArgumentException.class);
+        assertThatCode(() -> validator.validate(fileLines)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void validateFileLines_FileLinesTooLong_ThrowsIllegalArgumentException() {
+    void validate_FileLinesTooLong_ThrowsIllegalArgumentException() {
         var validator = new FileValidator();
         List<String> fileLines = List.of("1111111111");
-        assertThatCode(() -> validator.validateFileLines(fileLines)).isInstanceOf(IllegalArgumentException.class);
+        assertThatCode(() -> validator.validate(fileLines)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void validateFileLines_MultipleErrors_ThrowsIllegalArgumentExceptionWithMultipleErrors() {
+    void validate_MultipleErrors_ThrowsIllegalArgumentExceptionWithMultipleErrors() {
         var validator = new FileValidator();
         List<String> fileLines = Arrays.asList("123", "abc", "1111111111");
         try {
-            validator.validateFileLines(fileLines);
+            validator.validate(fileLines);
             fail("Expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
             String errorMessage = e.getMessage();

@@ -22,7 +22,7 @@ public class TxtParser {
                 .collect(Collectors.toList());
 
         try {
-            fileValidator.validateFileLines(fileLines);
+            fileValidator.validate(fileLines);
         }
         catch (IllegalArgumentException ex) {
             log.error("An error occurred through validation: {}", ex.getMessage());
