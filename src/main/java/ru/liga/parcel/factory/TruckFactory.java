@@ -50,7 +50,7 @@ public class TruckFactory {
     }
 
     private List<Truck> createTrucksByConcatenatedStringCarcases(ArrayList<String> concatenatedCarcases) {
-        return divideOnSubCollectionsBySize(concatenatedCarcases)
+        return divideOnSubCollectionsByTruckMaxHeight(concatenatedCarcases)
                 .stream()
                 .map(batch -> {
                     var map = new HashMap<Integer, String>();
@@ -64,7 +64,7 @@ public class TruckFactory {
                 .toList();
     }
 
-    private <T> List<List<T>> divideOnSubCollectionsBySize(List<T> source) {
+    private <T> List<List<T>> divideOnSubCollectionsByTruckMaxHeight(List<T> source) {
         return new ArrayList<>(IntStream.range(0, source.size())
                 .boxed()
                 .collect(Collectors.groupingBy(
