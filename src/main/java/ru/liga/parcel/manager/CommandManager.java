@@ -12,8 +12,7 @@ import java.util.regex.Pattern;
 @Slf4j
 @RequiredArgsConstructor
 public class CommandManager {
-
-    private final Pattern IMPORT_COMMAND_PATTERN = Pattern.compile("(.+\\.txt)");
+    private final Pattern TXT_FILE_PATTERN = Pattern.compile("(.+\\.txt)");
     private final Pattern SELECT_MODE_PATTERN = Pattern.compile("(loading to capacity|one by one)");
 
     private final TxtParser txtParser;
@@ -21,7 +20,7 @@ public class CommandManager {
     private final PrintingService printingService;
 
     public void importCommand(String command, LoadingMode mode) {
-        var matcher = IMPORT_COMMAND_PATTERN.matcher(command);
+        var matcher = TXT_FILE_PATTERN.matcher(command);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Invalid command: " + command);
         }

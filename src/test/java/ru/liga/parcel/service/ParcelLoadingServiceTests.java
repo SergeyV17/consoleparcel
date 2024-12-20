@@ -19,7 +19,7 @@ class ParcelLoadingServiceTests {
 
         List<Truck> trucks = service.loadParcelsIntoTrucks(createParcels(), LoadingMode.ONE_BY_ONE);
 
-        trucks.forEach(truck -> assertThat(truck.getParcels().size()).isEqualTo(1));
+        trucks.forEach(truck -> assertThat(truck.getCargo().size()).isEqualTo(1));
     }
 
     @Test
@@ -29,7 +29,7 @@ class ParcelLoadingServiceTests {
         List<Truck> trucks = service.loadParcelsIntoTrucks(createParcels(), LoadingMode.LOADING_TO_CAPACITY);
 
         trucks.forEach(truck -> {
-            HashMap<Integer, String> parcels = truck.getParcels();
+            HashMap<Integer, String> parcels = truck.getCargo();
             for (int i = 0; i < parcels.size() - 1; i++) {
                 assertThat(parcels.get(i).length()).isGreaterThanOrEqualTo(parcels.get(i + 1).length());
             }

@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 @Slf4j
 public class FileValidator {
+    public static final String DELIMITER = "\r\n";
     private final Pattern FILE_LINE_PATTERN = Pattern.compile("^(\\d)\\1*$");
 
     public void validateFileLines(List<String> parcel) {
@@ -28,8 +29,7 @@ public class FileValidator {
         });
 
         if (!errors.isEmpty()) {
-            var errorsString = String.join("\r\n", errors);
-            log.error(errorsString);
+            var errorsString = String.join(DELIMITER, errors);
             throw new IllegalArgumentException(errorsString);
         }
     }
