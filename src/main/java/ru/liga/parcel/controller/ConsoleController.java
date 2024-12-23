@@ -20,6 +20,7 @@ public class ConsoleController {
         1. Choose loading mode:
             - "one by one" - 1 truck 1 parcel
             - "loading to capacity" - load every truck to full capacity
+            - "uniform" - uniform loading to every truck
         2. Enter file path with parcels
         3. Press "Ctrl + C" for exit from app.
         """);

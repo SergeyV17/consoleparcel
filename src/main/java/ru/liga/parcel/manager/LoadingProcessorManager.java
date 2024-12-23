@@ -6,6 +6,7 @@ import ru.liga.parcel.model.enums.LoadingMode;
 import ru.liga.parcel.processor.FullCapacityLoadingProcessor;
 import ru.liga.parcel.processor.LoadingProcessor;
 import ru.liga.parcel.processor.OneByOneLoadingProcessor;
+import ru.liga.parcel.processor.UniformLoadingProcessor;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class LoadingProcessorManager {
     private final FullCapacityLoadingProcessor fullCapacityLoadingProcessor;
     private final OneByOneLoadingProcessor oneByOneLoadingProcessor;
+    private final UniformLoadingProcessor uniformLoadingProcessor;
 
     public List<Truck> loadTrucks(List<String> cargo, LoadingMode mode) {
         LoadingProcessor loadingProcessor = getProcessorByLoadType(mode);
@@ -23,6 +25,7 @@ public class LoadingProcessorManager {
         switch (mode) {
             case LOADING_TO_CAPACITY -> {return fullCapacityLoadingProcessor;}
             case ONE_BY_ONE -> {return oneByOneLoadingProcessor;}
+            case UNIFORM -> {return uniformLoadingProcessor;}
             default -> throw new IllegalArgumentException("Invalid loading mode: " + mode);
         }
     }
