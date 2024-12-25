@@ -29,6 +29,7 @@ public class Truck {
         }
 
         var stringBuilder = new StringBuilder();
+        stringBuilder.append("\n");
         for (int i = Truck.MAX_HEIGHT - 1; i >= 0; i--) {
             String currentElement = cargo.getElements().size() > i ? cargo.getElements().get(i) : "";
 

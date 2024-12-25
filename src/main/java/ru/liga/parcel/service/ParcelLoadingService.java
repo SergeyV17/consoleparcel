@@ -13,7 +13,7 @@ import java.util.List;
 public class ParcelLoadingService {
     private final LoadingProcessorManager loadingProcessorManager;
 
-    public List<Truck> loadParcelsIntoTrucks(List<String> parcels, LoadingMode mode) {
-        return loadingProcessorManager.loadTrucks(parcels, mode);
+    public List<Truck> loadParcelsIntoTrucks(List<String> parcels, LoadingMode mode, Integer numberOfTrucks) {
+        return loadingProcessorManager.loadTrucks(parcels, mode, numberOfTrucks);
     }
 }

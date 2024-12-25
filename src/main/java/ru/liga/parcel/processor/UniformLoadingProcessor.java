@@ -17,14 +17,14 @@ public class UniformLoadingProcessor implements LoadingProcessor {
     private final ParcelRowsGenerator rowsGenerator;
 
     @Override
-    public List<Truck> loadCargoIntoTrucks(List<String> cargo) {
+    public List<Truck> loadCargoIntoTrucks(List<String> cargo, Integer numberOfTrucks) {
         HashMap<Integer, List<String>> parcelsByTruck = distributeParcelsByTruck(
                 rowsGenerator.GenerateRowsCargoByMaxWidth(cargo, Truck.MAX_WIDTH),
-                calculateNumberOfTrucks(cargo));
+                numberOfTrucks == null ? calculateNumberOfTrucks(cargo) : numberOfTrucks);
         return createTrucksByConcatenatedStringCarcases(parcelsByTruck);
     }
 
-    private static int calculateNumberOfTrucks(List<String> cargo) {
+    public static int calculateNumberOfTrucks(List<String> cargo) {
         Integer cargoVolume = Truck.MAX_HEIGHT * Truck.MAX_WIDTH;
         Integer parcelsVolume = cargo.stream().map(String::length).reduce(0, Integer::sum);
 
@@ -38,7 +38,9 @@ public class UniformLoadingProcessor implements LoadingProcessor {
     private static HashMap<Integer, List<String>> distributeParcelsByTruck(
             List<String> rows,
             Integer numberOfTrucks) {
-        HashMap<Integer, List<String>> parcelsByTruck = new HashMap<>(numberOfTrucks);
+
+        int truckSize = numberOfTrucks - 1;
+        HashMap<Integer, List<String>> parcelsByTruck = new HashMap<>(truckSize);
 
         Integer counter = 0;
         for (String row : rows) {
@@ -50,7 +52,7 @@ public class UniformLoadingProcessor implements LoadingProcessor {
             }
 
             counter++;
-            if (counter > numberOfTrucks) {
+            if (counter > truckSize) {
                 counter = 0;
             }
         }

@@ -13,13 +13,15 @@ import ru.liga.parcel.service.PrintingService;
 import ru.liga.parcel.util.TxtParser;
 import ru.liga.parcel.util.TxtReader;
 import ru.liga.parcel.validation.FileValidator;
+import ru.liga.parcel.validation.NumberOfTrucksValidator;
 
 public class ParcelApplication {
     public static void main(String[] args) {
         LoadingProcessorManager loadingProcessorManager = new LoadingProcessorManager(
                 new OneByOneLoadingProcessor(new TruckFactory()),
                 new FullCapacityLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator()),
-                new UniformLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator())
+                new UniformLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator()),
+                new NumberOfTrucksValidator()
         );
 
         var consoleController = new ConsoleController(

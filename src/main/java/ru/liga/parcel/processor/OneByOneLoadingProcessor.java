@@ -13,7 +13,7 @@ public class OneByOneLoadingProcessor implements LoadingProcessor {
     private final TruckFactory truckFactory;
 
     @Override
-    public List<Truck> loadCargoIntoTrucks(List<String> cargos) {
+    public List<Truck> loadCargoIntoTrucks(List<String> cargos, Integer numberOfTrucks) {
         return cargos.stream()
                 .map(cargo -> truckFactory.createTruck(
                         new Cargo(new ArrayList<>() {{add(cargo);}})))

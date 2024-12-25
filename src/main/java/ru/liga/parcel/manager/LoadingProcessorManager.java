@@ -7,6 +7,7 @@ import ru.liga.parcel.processor.FullCapacityLoadingProcessor;
 import ru.liga.parcel.processor.LoadingProcessor;
 import ru.liga.parcel.processor.OneByOneLoadingProcessor;
 import ru.liga.parcel.processor.UniformLoadingProcessor;
+import ru.liga.parcel.validation.NumberOfTrucksValidator;
 
 import java.util.List;
 
@@ -16,9 +17,14 @@ public class LoadingProcessorManager {
     private final FullCapacityLoadingProcessor fullCapacityLoadingProcessor;
     private final UniformLoadingProcessor uniformLoadingProcessor;
 
-    public List<Truck> loadTrucks(List<String> cargo, LoadingMode mode) {
+    private final NumberOfTrucksValidator numberOfTrucksValidator;
+
+    public List<Truck> loadTrucks(List<String> cargo, LoadingMode mode, Integer numberOfTrucks) {
+        if (numberOfTrucks != null) {
+            numberOfTrucksValidator.validate(numberOfTrucks, cargo, mode);
+        }
         LoadingProcessor loadingProcessor = getProcessorByLoadType(mode);
-        return loadingProcessor.loadCargoIntoTrucks(cargo);
+        return loadingProcessor.loadCargoIntoTrucks(cargo, numberOfTrucks);
     }
 
     private LoadingProcessor getProcessorByLoadType(LoadingMode mode) {

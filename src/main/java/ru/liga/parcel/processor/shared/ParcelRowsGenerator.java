@@ -26,6 +26,9 @@ public class ParcelRowsGenerator {
                 for (int j = i + 1; j < parcels.size(); j++) {
 
                     var right = parcels.get(j);
+                    if (right.isEmpty()) {
+                        continue;
+                    }
 
                     if (rowBuffer.length() + right.length() < currentWidth) {
                         rowBuffer.append(right);
@@ -42,7 +45,7 @@ public class ParcelRowsGenerator {
                     }
                 }
 
-                if (rowBuffer.length() == currentWidth || i == parcels.size() - 1) {
+                if (rowBuffer.length() <= currentWidth) {
                     rows.add(rowBuffer.toString());
                 }
             }

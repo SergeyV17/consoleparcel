@@ -18,7 +18,7 @@ public class FullCapacityLoadingProcessor implements LoadingProcessor {
     private final ParcelRowsGenerator rowsGenerator;
 
     @Override
-    public List<Truck> loadCargoIntoTrucks(List<String> cargo) {
+    public List<Truck> loadCargoIntoTrucks(List<String> cargo, Integer numberOfTrucks) {
         return createTrucksByParcelRows(rowsGenerator.GenerateRowsCargoByMaxWidth(cargo, Truck.MAX_WIDTH));
     }
 
