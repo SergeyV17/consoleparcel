@@ -1,4 +1,4 @@
-package ru.liga.parcel.processor;
+package ru.liga.parcel.processor.loading;
 
 import ru.liga.parcel.model.entity.Truck;
 

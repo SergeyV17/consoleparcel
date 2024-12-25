@@ -3,6 +3,7 @@ package ru.liga.parcel.processor;
 import org.junit.jupiter.api.Test;
 import ru.liga.parcel.factory.TruckFactory;
 import ru.liga.parcel.model.entity.Truck;
+import ru.liga.parcel.processor.loading.FullCapacityLoadingProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +34,9 @@ class FullCapacityLoadingProcessorTest {
         List<Truck> trucks = processor.loadCargoIntoTrucks(cargo);
 
         assertThat(trucks).hasSize(2);
-        assertThat(trucks.get(0).getCargo().getElements())
+        assertThat(trucks.get(0).getCargo().getParcels())
                 .containsExactly("111111", "222222", "333333", "444444", "555555", "666666");
-        assertThat(trucks.get(1).getCargo().getElements()).containsExactly("777777");
+        assertThat(trucks.get(1).getCargo().getParcels()).containsExactly("777777");
     }
 
     @Test
@@ -45,6 +46,6 @@ class FullCapacityLoadingProcessorTest {
         List<Truck> trucks = processor.loadCargoIntoTrucks(cargo);
 
         assertThat(trucks).hasSize(1);
-        assertThat(trucks.getFirst().getCargo().getElements()).containsExactly("111111", "222222", "3333");
+        assertThat(trucks.getFirst().getCargo().getParcels()).containsExactly("111111", "222222", "3333");
     }
 }

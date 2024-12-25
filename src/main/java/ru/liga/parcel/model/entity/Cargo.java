@@ -6,9 +6,9 @@ import java.util.List;
 
 @Getter
 public class Cargo {
-    private final List<String> elements;
+    private final List<String> parcels;
 
     public Cargo(List<String> elements) {
-        this.elements = elements;
+        this.parcels = elements;
     }
 }

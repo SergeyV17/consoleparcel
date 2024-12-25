@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.liga.parcel.model.enums.LoadingMode;
 import ru.liga.parcel.service.ParcelLoadingService;
-import ru.liga.parcel.service.PrintingService;
+import ru.liga.parcel.processor.output.ConsoleOutputProcessor;
 import ru.liga.parcel.util.TxtParser;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class CommandManagerTest {
     public void testImportCommand_validCommand_parsesCargoFromFile() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
-        PrintingService printingService = Mockito.mock(PrintingService.class);
+        ConsoleOutputProcessor printingService = Mockito.mock(ConsoleOutputProcessor.class);
         CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "path/to/file.txt";
         List<String> parcels = List.of("parcel1", "parcel2");
@@ -33,7 +33,7 @@ public class CommandManagerTest {
     public void testImportCommand_invalidCommand_throwsIllegalArgumentException() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
-        PrintingService printingService = Mockito.mock(PrintingService.class);
+        ConsoleOutputProcessor printingService = Mockito.mock(ConsoleOutputProcessor.class);
         CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "invalid command";
 
@@ -46,7 +46,7 @@ public class CommandManagerTest {
     public void testImportCommand_emptyParcels_throwsIllegalArgumentException() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
-        PrintingService printingService = Mockito.mock(PrintingService.class);
+        ConsoleOutputProcessor printingService = Mockito.mock(ConsoleOutputProcessor.class);
         CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "path/to/file.txt";
         Mockito.when(txtParser.parseCargoFromFile(Mockito.any())).thenReturn(List.of());
@@ -60,7 +60,7 @@ public class CommandManagerTest {
     public void testSelectModeCommand_validCommand_returnsLoadingMode() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
-        PrintingService printingService = Mockito.mock(PrintingService.class);
+        ConsoleOutputProcessor printingService = Mockito.mock(ConsoleOutputProcessor.class);
         CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "loading to capacity";
 
@@ -73,7 +73,7 @@ public class CommandManagerTest {
     public void testSelectModeCommand_invalidCommand_throwsIllegalArgumentException() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
-        PrintingService printingService = Mockito.mock(PrintingService.class);
+        ConsoleOutputProcessor printingService = Mockito.mock(ConsoleOutputProcessor.class);
         CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "invalid command";
 

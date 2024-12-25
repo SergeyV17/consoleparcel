@@ -16,7 +16,7 @@ public class Truck {
     }
 
     public void loadTruck(Cargo cargo) {
-        if (cargo.getElements().size() > MAX_HEIGHT) {
+        if (cargo.getParcels().size() > MAX_HEIGHT) {
             throw new IllegalArgumentException("Truck cannot load more than " + MAX_HEIGHT);
         }
         this.cargo = cargo;
@@ -24,14 +24,14 @@ public class Truck {
 
     @Override
     public String toString() {
-        if (cargo.getElements().isEmpty()) {
+        if (cargo.getParcels().isEmpty()) {
             return "";
         }
 
         var stringBuilder = new StringBuilder();
         stringBuilder.append("\n");
         for (int i = Truck.MAX_HEIGHT - 1; i >= 0; i--) {
-            String currentElement = cargo.getElements().size() > i ? cargo.getElements().get(i) : "";
+            String currentElement = cargo.getParcels().size() > i ? cargo.getParcels().get(i) : "";
 
             stringBuilder.append("+");
             stringBuilder.append(currentElement);

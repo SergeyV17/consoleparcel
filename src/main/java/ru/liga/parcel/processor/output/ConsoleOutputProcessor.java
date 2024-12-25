@@ -1,4 +1,4 @@
-package ru.liga.parcel.service;
+package ru.liga.parcel.processor.output;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.liga.parcel.model.entity.Truck;
@@ -6,8 +6,9 @@ import ru.liga.parcel.model.entity.Truck;
 import java.util.List;
 
 @Slf4j
-public class PrintingService {
-    public void PrintTrucks(List<Truck> trucks) {
+public class ConsoleOutputProcessor implements OutputProcessor {
+    @Override
+    public void writeTrucks(List<Truck> trucks) {
         for (Truck truck : trucks) {
             log.info(truck.toString());
         }

@@ -1,4 +1,4 @@
-package ru.liga.parcel.processor.shared;
+package ru.liga.parcel.processor.loading.shared;
 
 import java.util.ArrayList;
 import java.util.Comparator;

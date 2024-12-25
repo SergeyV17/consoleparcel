@@ -1,10 +1,10 @@
-package ru.liga.parcel.processor;
+package ru.liga.parcel.processor.loading;
 
 import lombok.RequiredArgsConstructor;
 import ru.liga.parcel.factory.TruckFactory;
 import ru.liga.parcel.model.entity.Cargo;
 import ru.liga.parcel.model.entity.Truck;
-import ru.liga.parcel.processor.shared.ParcelRowsGenerator;
+import ru.liga.parcel.processor.loading.shared.ParcelRowsGenerator;
 
 import java.util.ArrayList;
 import java.util.List;

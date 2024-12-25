@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.liga.parcel.model.entity.Truck;
 import ru.liga.parcel.model.enums.LoadingMode;
+import ru.liga.parcel.model.enums.OutputType;
+import ru.liga.parcel.service.OutputService;
 import ru.liga.parcel.service.ParcelLoadingService;
-import ru.liga.parcel.service.PrintingService;
 import ru.liga.parcel.util.TxtParser;
 
 import java.util.List;
@@ -20,9 +21,9 @@ public class CommandManager {
 
     private final TxtParser txtParser;
     private final ParcelLoadingService parcelLoadingService;
-    private final PrintingService printingService;
+    private final OutputService outputService;
 
-    public void importCommand(String command, LoadingMode mode, Integer numberOfTrucks) {
+    public void importCommand(String command, LoadingMode mode, Integer numberOfTrucks, OutputType outputType) {
         Matcher matcher = TXT_FILE_PATTERN.matcher(command);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Invalid command: " + command);
@@ -38,8 +39,8 @@ public class CommandManager {
 
         List<Truck> cargosWithinTrucks = parcelLoadingService.loadParcelsIntoTrucks(parcels, mode, numberOfTrucks);
 
-        log.info("Print trucks into console...");
-        printingService.PrintTrucks(cargosWithinTrucks);
+        log.info("Sending trucks to output...");
+        outputService.SendTrucksToOutput(cargosWithinTrucks, outputType);
 
         log.info("Loading parcels into trucks completed");
     }
@@ -70,5 +71,17 @@ public class CommandManager {
         }
 
         throw new IllegalArgumentException("Invalid number of trucks: " + command);
+    }
+
+    public OutputType selectOutputType(String command) {
+        OutputType selectedOutputType;
+        switch (command) {
+            case "json" -> selectedOutputType = OutputType.JSON;
+            case "console" -> selectedOutputType = OutputType.CONSOLE;
+            default -> throw new IllegalStateException("Invalid output type: " + command);
+        }
+
+        log.info("Selected output type: {}", selectedOutputType);
+        return selectedOutputType;
     }
 }

@@ -2,7 +2,7 @@ package ru.liga.parcel.validation;
 
 import ru.liga.parcel.model.entity.Truck;
 import ru.liga.parcel.model.enums.LoadingMode;
-import ru.liga.parcel.processor.UniformLoadingProcessor;
+import ru.liga.parcel.processor.loading.UniformLoadingProcessor;
 
 import java.util.List;
 
