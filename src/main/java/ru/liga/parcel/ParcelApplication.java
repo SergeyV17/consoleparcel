@@ -6,6 +6,8 @@ import ru.liga.parcel.manager.CommandManager;
 import ru.liga.parcel.manager.LoadingProcessorManager;
 import ru.liga.parcel.processor.FullCapacityLoadingProcessor;
 import ru.liga.parcel.processor.OneByOneLoadingProcessor;
+import ru.liga.parcel.processor.UniformLoadingProcessor;
+import ru.liga.parcel.processor.shared.ParcelRowsGenerator;
 import ru.liga.parcel.service.ParcelLoadingService;
 import ru.liga.parcel.service.PrintingService;
 import ru.liga.parcel.util.TxtParser;
@@ -15,8 +17,9 @@ import ru.liga.parcel.validation.FileValidator;
 public class ParcelApplication {
     public static void main(String[] args) {
         LoadingProcessorManager loadingProcessorManager = new LoadingProcessorManager(
-                new FullCapacityLoadingProcessor(new TruckFactory()),
-                new OneByOneLoadingProcessor(new TruckFactory())
+                new OneByOneLoadingProcessor(new TruckFactory()),
+                new FullCapacityLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator()),
+                new UniformLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator())
         );
 
         var consoleController = new ConsoleController(

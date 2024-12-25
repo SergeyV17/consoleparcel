@@ -12,8 +12,8 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class LoadingProcessorManager {
-    private final FullCapacityLoadingProcessor fullCapacityLoadingProcessor;
     private final OneByOneLoadingProcessor oneByOneLoadingProcessor;
+    private final FullCapacityLoadingProcessor fullCapacityLoadingProcessor;
     private final UniformLoadingProcessor uniformLoadingProcessor;
 
     public List<Truck> loadTrucks(List<String> cargo, LoadingMode mode) {

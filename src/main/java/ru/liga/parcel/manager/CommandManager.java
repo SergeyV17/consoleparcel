@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class CommandManager {
     private final Pattern TXT_FILE_PATTERN = Pattern.compile("(.+\\.txt)");
-    private final Pattern SELECT_MODE_PATTERN = Pattern.compile("(loading to capacity|one by one)");
 
     private final TxtParser txtParser;
     private final ParcelLoadingService parcelLoadingService;
@@ -41,14 +40,11 @@ public class CommandManager {
     }
 
     public LoadingMode selectModeCommand(String command) {
-        if (!SELECT_MODE_PATTERN.matcher(command).matches()) {
-            throw new IllegalArgumentException("Invalid command: " + command);
-        }
-
         var selectedMode = LoadingMode.NONE;
         switch (command) {
             case "loading to capacity" -> selectedMode = LoadingMode.LOADING_TO_CAPACITY;
             case "one by one" -> selectedMode = LoadingMode.ONE_BY_ONE;
+            case "uniform" -> selectedMode = LoadingMode.UNIFORM;
             default -> throw new IllegalStateException("Invalid loading mode: " + command);
         }
 
