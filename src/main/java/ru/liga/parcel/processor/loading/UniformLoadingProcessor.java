@@ -9,6 +9,7 @@ import ru.liga.parcel.processor.loading.shared.ParcelRowsGenerator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class UniformLoadingProcessor implements LoadingProcessor {
@@ -35,7 +36,7 @@ public class UniformLoadingProcessor implements LoadingProcessor {
         return numberOfTrucks;
     }
 
-    private static HashMap<Integer, List<String>> distributeParcelsByTruck(
+    public static HashMap<Integer, List<String>> distributeParcelsByTruck(
             List<String> rows,
             Integer numberOfTrucks) {
 
@@ -59,8 +60,8 @@ public class UniformLoadingProcessor implements LoadingProcessor {
         return parcelsByTruck;
     }
 
-    private List<Truck> createTrucksByConcatenatedStringCarcases(
-            HashMap<Integer, List<String>> concatenatedCarcases) {
+    public List<Truck> createTrucksByConcatenatedStringCarcases(
+            Map<Integer, List<String>> concatenatedCarcases) {
 
         List<Truck> trucks = new ArrayList<>();
         for (int i = 0; i < concatenatedCarcases.size(); i++) {

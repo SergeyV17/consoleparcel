@@ -1,9 +1,8 @@
-package ru.liga.parcel.processor;
+package ru.liga.parcel.processor.loading;
 
 import org.junit.jupiter.api.Test;
 import ru.liga.parcel.factory.TruckFactory;
 import ru.liga.parcel.model.entity.Truck;
-import ru.liga.parcel.processor.loading.FullCapacityLoadingProcessor;
 import ru.liga.parcel.processor.loading.shared.ParcelRowsGenerator;
 
 import java.util.ArrayList;
