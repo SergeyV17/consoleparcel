@@ -53,7 +53,7 @@ public class ConsoleController {
                 line = scanner.nextLine();
                 LoadingMode loadingMode = commandManager.selectLoadingModeCommand(line);
 
-                log.info("Select number of trucks: ");
+                log.info("Select number of trucks or press \"N\" for default behavior: ");
                 line = scanner.nextLine();
                 Integer numberOfTrucks = commandManager.selectNumberOfTrucksCommand(line);
 
