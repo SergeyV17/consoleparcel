@@ -14,4 +14,8 @@ public class OutputService {
     public void SendTrucksToOutput(List<Truck> trucks, OutputType outputType) {
         outputProcessorManager.SendTrucksToOutput(trucks, outputType);
     }
+
+    public void SendParcelsToOutput(List<String> parcels) {
+        outputProcessorManager.SendParcelsToOutput(parcels, OutputType.TXT);
+    }
 }

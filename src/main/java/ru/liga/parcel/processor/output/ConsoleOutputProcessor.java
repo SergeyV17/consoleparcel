@@ -13,4 +13,11 @@ public class ConsoleOutputProcessor implements OutputProcessor {
             log.info(truck.toString());
         }
     }
+
+    @Override
+    public void writeParcels(List<String> parcels) {
+        for (String parcel : parcels) {
+            log.info(parcel);
+        }
+    }
 }

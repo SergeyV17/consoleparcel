@@ -20,7 +20,21 @@ public class JsonOutputProcessor implements OutputProcessor {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputFile, trucks);
         }
         catch (IOException ex) {
-            log.error("An IO exception occurred {}", ex.getMessage());
+            log.error("An IO exception occurred when writing trucks to json {}", ex.getMessage());
+        }
+    }
+
+    @Override
+    public void writeParcels(List<String> parcels) {
+        try {
+            String baseDir = System.getProperty("user.dir");
+            File outputFile = new File(baseDir, "parcels.json");
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputFile, parcels);
+        }
+        catch (IOException ex) {
+            log.error("An IO exception occurred when writing parcels to json {}", ex.getMessage());
         }
     }
 }

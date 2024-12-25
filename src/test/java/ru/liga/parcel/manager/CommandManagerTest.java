@@ -24,9 +24,9 @@ public class CommandManagerTest {
         List<String> parcels = List.of("parcel1", "parcel2");
         Mockito.when(txtParser.parseCargoFromFile(Mockito.any())).thenReturn(parcels);
 
-        commandManager.importCommand(command, LoadingMode.ONE_BY_ONE);
+        commandManager.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE);
 
-        assertThatCode(() -> commandManager.importCommand(command, LoadingMode.ONE_BY_ONE)).doesNotThrowAnyException();
+        assertThatCode(() -> commandManager.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE)).doesNotThrowAnyException();
     }
 
     @Test
@@ -37,7 +37,7 @@ public class CommandManagerTest {
         CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "invalid command";
 
-        assertThatThrownBy(() -> commandManager.importCommand(command, LoadingMode.ONE_BY_ONE))
+        assertThatThrownBy(() -> commandManager.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Invalid command: invalid command");
     }
@@ -51,7 +51,7 @@ public class CommandManagerTest {
         String command = "path/to/file.txt";
         Mockito.when(txtParser.parseCargoFromFile(Mockito.any())).thenReturn(List.of());
 
-        assertThatThrownBy(() -> commandManager.importCommand(command, LoadingMode.ONE_BY_ONE))
+        assertThatThrownBy(() -> commandManager.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Parcels not found in path/to/file.txt");
     }
@@ -64,7 +64,7 @@ public class CommandManagerTest {
         CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "loading to capacity";
 
-        LoadingMode mode = commandManager.selectModeCommand(command);
+        LoadingMode mode = commandManager.selectLoadingModeCommand(command);
 
         assertThat(mode).isEqualTo(LoadingMode.LOADING_TO_CAPACITY);
     }
@@ -77,7 +77,7 @@ public class CommandManagerTest {
         CommandManager commandManager = new CommandManager(txtParser, parcelLoadingService, printingService);
         String command = "invalid command";
 
-        assertThatThrownBy(() -> commandManager.selectModeCommand(command))
+        assertThatThrownBy(() -> commandManager.selectLoadingModeCommand(command))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Invalid command: invalid command");
     }
