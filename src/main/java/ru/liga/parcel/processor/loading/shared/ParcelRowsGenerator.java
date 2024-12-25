@@ -47,6 +47,7 @@ public class ParcelRowsGenerator {
 
                 if (rowBuffer.length() <= currentWidth) {
                     rows.add(rowBuffer.toString());
+                    parcels.set(i, "");
                 }
             }
         }

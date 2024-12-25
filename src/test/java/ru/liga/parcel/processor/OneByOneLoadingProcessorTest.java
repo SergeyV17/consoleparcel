@@ -15,7 +15,7 @@ class OneByOneLoadingProcessorTest {
     public void testLoadCargoIntoTrucks_EmptyList_ReturnsEmptyList() {
         OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor(new TruckFactory());
         List<String> cargo = new ArrayList<>();
-        List<Truck> trucks = processor.loadCargoIntoTrucks(cargo);
+        List<Truck> trucks = processor.loadCargoIntoTrucks(cargo, null);
 
         assertThat(trucks).isEmpty();
     }
@@ -24,7 +24,7 @@ class OneByOneLoadingProcessorTest {
     public void testLoadCargoIntoTrucks_SingleParcel_ReturnsSingleTruck() {
         OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor(new TruckFactory());
         List<String> cargo = List.of("111111");
-        List<Truck> trucks = processor.loadCargoIntoTrucks(cargo);
+        List<Truck> trucks = processor.loadCargoIntoTrucks(cargo, null);
 
         assertThat(trucks).hasSize(1);
         assertThat(trucks.getFirst().getCargo().getParcels()).containsExactly("111111");
@@ -34,7 +34,7 @@ class OneByOneLoadingProcessorTest {
     public void testLoadCargoIntoTrucks_MultipleParcels_ReturnsMultipleTrucks() {
         OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor(new TruckFactory());
         List<String> cargo = List.of("111111", "222222", "333333");
-        List<Truck> trucks = processor.loadCargoIntoTrucks(cargo);
+        List<Truck> trucks = processor.loadCargoIntoTrucks(cargo, null);
 
         assertThat(trucks).hasSize(3);
         assertThat(trucks.get(0).getCargo().getParcels()).containsExactly("111111");
