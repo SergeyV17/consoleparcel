@@ -22,7 +22,8 @@ public class FullCapacityLoadingProcessor implements LoadingProcessor {
 
     @Override
     public List<Truck> loadParcelsIntoTrucks(List<String> cargo, Integer numberOfTrucks) {
-        return createTrucksByParcelRows(rowsGenerator.generateRowsCargoByMaxWidth(cargo, Truck.MAX_WIDTH));
+        List<String> rows = rowsGenerator.generateRowsCargoByMaxWidth(cargo, Truck.MAX_WIDTH);
+        return createTrucksByParcelRows(rows);
     }
 
     private List<Truck> createTrucksByParcelRows(List<String> rows) {

@@ -18,13 +18,14 @@ import java.util.regex.Pattern;
 public class InputCommandService {
 
     public static final String NUMBER_OF_TRUCKS_NOT_REQUIRED = "N";
-    public static final String JSON_OUTOUT_TYPE = "json";
+    public static final String JSON_OUTPUT_TYPE = "json";
     public static final String CONSOLE_OUTPUT_TYPE = "console";
     public static final String LOADING_TRUCKS_COMMAND = "loading trucks";
     public static final String UNLOADING_TRUCKS_COMMAND = "unloading trucks";
     public static final String LOADING_TO_CAPACITY_MODE = "loading to capacity";
     public static final String ONE_BY_ONE_MODE = "one by one";
     public static final String UNIFORM_MODE = "uniform";
+    public static final String EXIT_COMMAND = "exit";
     private final Pattern NUMBER_OF_TRUCKS_PATTERN = Pattern.compile("\\d+");
 
     private final CommandValidationService commandValidator;
@@ -74,7 +75,7 @@ public class InputCommandService {
     public OutputType selectOutputTypeCommand(String command) {
         OutputType selectedOutputType;
         switch (command) {
-            case JSON_OUTOUT_TYPE -> selectedOutputType = OutputType.JSON;
+            case JSON_OUTPUT_TYPE -> selectedOutputType = OutputType.JSON;
             case CONSOLE_OUTPUT_TYPE -> selectedOutputType = OutputType.CONSOLE;
             default -> throw new IllegalStateException("Invalid output type: " + command);
         }
@@ -101,10 +102,10 @@ public class InputCommandService {
     }
 
     public boolean isExitCommand(String command) {
-        return command.equals("exit");
+        return command.equals(EXIT_COMMAND);
     }
 
     public boolean isSelectProgramModeCommand(String command) {
-        return command.equals("loading trucks") || command.equals("unloading trucks");
+        return command.equals(InputCommandService.LOADING_TRUCKS_COMMAND) || command.equals(InputCommandService.UNLOADING_TRUCKS_COMMAND);
     }
 }
