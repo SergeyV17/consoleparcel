@@ -1,8 +1,7 @@
-package ru.liga.parcelmanager.validation;
+package ru.liga.parcelmanager.service;
 
 import org.junit.jupiter.api.Test;
 import ru.liga.parcelmanager.model.entity.Truck;
-import ru.liga.parcelmanager.service.FileValidationService;
 
 import java.util.ArrayList;
 import java.util.Arrays;

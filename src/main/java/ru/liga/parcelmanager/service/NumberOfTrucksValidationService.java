@@ -2,13 +2,13 @@ package ru.liga.parcelmanager.service;
 
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.model.enums.LoadingMode;
-import ru.liga.parcelmanager.processor.loading.shared.NumberOfTrucksCalculator;
+import ru.liga.parcelmanager.processor.impl.shared.NumberOfTrucksCalculator;
 
 import java.util.List;
 
 public class NumberOfTrucksValidationService {
 
-    public static final int Seed = 0;
+    private static final int Seed = 0;
 
     public void validate(Integer numberOfTrucks, List<String> parcels, LoadingMode mode) {
         switch (mode) {

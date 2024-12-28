@@ -2,19 +2,20 @@ package ru.liga.parcelmanager;
 
 import ru.liga.parcelmanager.controller.ConsoleController;
 import ru.liga.parcelmanager.factory.TruckFactory;
+import ru.liga.parcelmanager.processor.impl.shared.NumberOfTrucksCalculator;
 import ru.liga.parcelmanager.service.InputCommandService;
 import ru.liga.parcelmanager.service.FeatureService;
 import ru.liga.parcelmanager.service.LoadingProcessorService;
 import ru.liga.parcelmanager.service.OutputProcessorService;
-import ru.liga.parcelmanager.processor.loading.FullCapacityLoadingProcessor;
-import ru.liga.parcelmanager.processor.loading.OneByOneLoadingProcessor;
-import ru.liga.parcelmanager.processor.loading.UniformLoadingProcessor;
-import ru.liga.parcelmanager.processor.loading.shared.ParcelRowsGenerator;
-import ru.liga.parcelmanager.processor.output.JsonOutputProcessor;
-import ru.liga.parcelmanager.processor.output.TxtOutputProcessor;
+import ru.liga.parcelmanager.processor.impl.FullCapacityLoadingProcessor;
+import ru.liga.parcelmanager.processor.impl.OneByOneLoadingProcessor;
+import ru.liga.parcelmanager.processor.impl.UniformLoadingProcessor;
+import ru.liga.parcelmanager.processor.impl.shared.ParcelRowsGenerator;
+import ru.liga.parcelmanager.processor.impl.JsonOutputProcessor;
+import ru.liga.parcelmanager.processor.impl.TxtOutputProcessor;
 import ru.liga.parcelmanager.service.OutputService;
 import ru.liga.parcelmanager.service.ParcelLoadingService;
-import ru.liga.parcelmanager.processor.output.ConsoleOutputProcessor;
+import ru.liga.parcelmanager.processor.impl.ConsoleOutputProcessor;
 import ru.liga.parcelmanager.service.TruckUnloadingService;
 import ru.liga.parcelmanager.util.JsonParser;
 import ru.liga.parcelmanager.util.TxtParser;
@@ -36,7 +37,7 @@ public class ParcelApplication {
         LoadingProcessorService loadingProcessorManager = new LoadingProcessorService(
                 new OneByOneLoadingProcessor(new TruckFactory()),
                 new FullCapacityLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator()),
-                new UniformLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator()),
+                new UniformLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator(), new NumberOfTrucksCalculator()),
                 new NumberOfTrucksValidationService()
         );
 

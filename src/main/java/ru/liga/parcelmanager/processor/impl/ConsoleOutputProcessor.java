@@ -1,7 +1,8 @@
-package ru.liga.parcelmanager.processor.output;
+package ru.liga.parcelmanager.processor.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.liga.parcelmanager.model.entity.Truck;
+import ru.liga.parcelmanager.processor.OutputProcessor;
 
 import java.util.List;
 

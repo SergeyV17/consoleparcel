@@ -20,6 +20,6 @@ public class JsonParser {
             log.error("An IO exception occurred {}", ex.getMessage());
         }
 
-        return null;
+        throw new RuntimeException("Trucks not found in " + filePath);
     }
 }

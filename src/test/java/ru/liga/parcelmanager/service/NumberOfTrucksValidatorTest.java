@@ -1,7 +1,6 @@
-package ru.liga.parcelmanager.validation;
+package ru.liga.parcelmanager.service;
 
 import org.junit.jupiter.api.Test;
-import ru.liga.parcelmanager.service.NumberOfTrucksValidationService;
 
 import java.util.Arrays;
 import java.util.List;

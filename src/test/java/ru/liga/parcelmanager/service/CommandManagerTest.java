@@ -1,16 +1,11 @@
-package ru.liga.parcelmanager.manager;
+package ru.liga.parcelmanager.service;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.liga.parcelmanager.model.enums.LoadingMode;
 import ru.liga.parcelmanager.model.enums.OutputType;
-import ru.liga.parcelmanager.service.InputCommandService;
-import ru.liga.parcelmanager.service.OutputService;
-import ru.liga.parcelmanager.service.ParcelLoadingService;
-import ru.liga.parcelmanager.service.TruckUnloadingService;
 import ru.liga.parcelmanager.util.JsonParser;
 import ru.liga.parcelmanager.util.TxtParser;
-import ru.liga.parcelmanager.service.CommandValidationService;
 
 import java.util.List;
 
@@ -21,7 +16,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 public class CommandManagerTest {
 
     @Test
-    public void testImportCommand_validCommand_parsesCargoFromFile() {
+    public void testLoadTrucksCommand_validCommand_parsesCargoFromFile() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
@@ -42,7 +37,7 @@ public class CommandManagerTest {
     }
 
     @Test
-    public void testImportCommand_invalidCommand_throwsIllegalArgumentException() {
+    public void testLoadTrucksCommand_invalidCommand_throwsIllegalArgumentException() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
@@ -63,7 +58,7 @@ public class CommandManagerTest {
     }
 
     @Test
-    public void testImportCommand_emptyParcels_throwsIllegalArgumentException() {
+    public void testLoadTrucksCommand_emptyParcels_throwsIllegalArgumentException() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);

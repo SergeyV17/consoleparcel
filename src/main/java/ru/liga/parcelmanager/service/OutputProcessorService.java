@@ -3,10 +3,10 @@ package ru.liga.parcelmanager.service;
 import lombok.RequiredArgsConstructor;
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.model.enums.OutputType;
-import ru.liga.parcelmanager.processor.output.ConsoleOutputProcessor;
-import ru.liga.parcelmanager.processor.output.JsonOutputProcessor;
-import ru.liga.parcelmanager.processor.output.OutputProcessor;
-import ru.liga.parcelmanager.processor.output.TxtOutputProcessor;
+import ru.liga.parcelmanager.processor.impl.ConsoleOutputProcessor;
+import ru.liga.parcelmanager.processor.impl.JsonOutputProcessor;
+import ru.liga.parcelmanager.processor.OutputProcessor;
+import ru.liga.parcelmanager.processor.impl.TxtOutputProcessor;
 
 import java.util.List;
 

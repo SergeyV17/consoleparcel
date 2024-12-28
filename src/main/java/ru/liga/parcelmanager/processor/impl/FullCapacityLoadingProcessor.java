@@ -1,10 +1,11 @@
-package ru.liga.parcelmanager.processor.loading;
+package ru.liga.parcelmanager.processor.impl;
 
 import lombok.RequiredArgsConstructor;
 import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.model.entity.Cargo;
 import ru.liga.parcelmanager.model.entity.Truck;
-import ru.liga.parcelmanager.processor.loading.shared.ParcelRowsGenerator;
+import ru.liga.parcelmanager.processor.LoadingProcessor;
+import ru.liga.parcelmanager.processor.impl.shared.ParcelRowsGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,6 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class FullCapacityLoadingProcessor implements LoadingProcessor {
 
-    public static final int SEED_VALUE = 0;
     private final TruckFactory truckFactory;
     private final ParcelRowsGenerator rowsGenerator;
 
@@ -32,6 +32,7 @@ public class FullCapacityLoadingProcessor implements LoadingProcessor {
     }
 
     private List<List<String>> divideOnSubCollectionsByTruckMaxHeight(List<String> source) {
+        int SEED_VALUE = 0;
         return new ArrayList<>(IntStream.range(SEED_VALUE, source.size())
                 .boxed()
                 .collect(Collectors.groupingBy(

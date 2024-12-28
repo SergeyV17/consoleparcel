@@ -1,9 +1,9 @@
-package ru.liga.parcelmanager.processor.loading;
+package ru.liga.parcelmanager.processor.impl;
 
 import org.junit.jupiter.api.Test;
 import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.model.entity.Truck;
-import ru.liga.parcelmanager.processor.loading.shared.ParcelRowsGenerator;
+import ru.liga.parcelmanager.processor.impl.shared.ParcelRowsGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +23,8 @@ class FullCapacityLoadingProcessorTest {
     @Test
     public void testLoadParcelsIntoTrucks_SingleParcel_ReturnsSingleTruck() {
         FullCapacityLoadingProcessor processor = new FullCapacityLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator());
-        List<String> cargo = List.of("111111");
-        List<Truck> trucks = processor.loadParcelsIntoTrucks(cargo, null);
+        List<String> parcel = List.of("111111");
+        List<Truck> trucks = processor.loadParcelsIntoTrucks(parcel, null);
         assertThat(trucks).hasSize(1);
     }
 

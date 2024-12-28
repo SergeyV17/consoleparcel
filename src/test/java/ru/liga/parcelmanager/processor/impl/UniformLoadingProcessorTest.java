@@ -1,11 +1,11 @@
-package ru.liga.parcelmanager.processor.loading;
+package ru.liga.parcelmanager.processor.impl;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.model.entity.Truck;
-import ru.liga.parcelmanager.processor.loading.shared.NumberOfTrucksCalculator;
-import ru.liga.parcelmanager.processor.loading.shared.ParcelRowsGenerator;
+import ru.liga.parcelmanager.processor.impl.shared.NumberOfTrucksCalculator;
+import ru.liga.parcelmanager.processor.impl.shared.ParcelRowsGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,10 +18,11 @@ public class UniformLoadingProcessorTest {
 
     @Test
     public void loadParcelsIntoTrucks_NoNumberOfTrucksProvided_ReturnsNonEmptyList() {
+
         UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
-                new TruckFactory(),
-                new ParcelRowsGenerator(),
-                new NumberOfTrucksCalculator());
+                Mockito.mock(TruckFactory.class),
+                Mockito.mock(ParcelRowsGenerator.class),
+                Mockito.mock(NumberOfTrucksCalculator.class));
 
         List<String> cargo = new ArrayList<>();
         cargo.add("111111");
@@ -36,9 +37,9 @@ public class UniformLoadingProcessorTest {
     @Test
     public void loadParcelsIntoTrucks_WithNumberOfTrucksProvided_ReturnsListOfSizeNumberOfTrucks() {
         UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
-                new TruckFactory(),
-                new ParcelRowsGenerator(),
-                new NumberOfTrucksCalculator());
+                Mockito.mock(TruckFactory.class),
+                Mockito.mock(ParcelRowsGenerator.class),
+                Mockito.mock(NumberOfTrucksCalculator.class));
 
         List<String> cargo = new ArrayList<>();
         cargo.add("111111");
@@ -73,7 +74,7 @@ public class UniformLoadingProcessorTest {
 
         Map<Integer, List<String>> parcelsByTruck = new UniformLoadingProcessor(
                 new TruckFactory(),
-                new ParcelRowsGenerator(),
+                Mockito.mock(ParcelRowsGenerator.class),
                 new NumberOfTrucksCalculator())
                 .distributeParcelsByTruck(rows, numberOfTrucks);
 

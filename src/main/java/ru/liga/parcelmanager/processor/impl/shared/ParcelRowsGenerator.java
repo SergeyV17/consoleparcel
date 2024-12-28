@@ -1,4 +1,4 @@
-package ru.liga.parcelmanager.processor.loading.shared;
+package ru.liga.parcelmanager.processor.impl.shared;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -6,8 +6,8 @@ import java.util.List;
 
 public class ParcelRowsGenerator {
 
-    public static final int START_INDEX = 0;
-    public static final int TO_ARRAY_LAST_INDEX = 1;
+    public static final Integer START_INDEX = 0;
+    public static final Integer TO_ARRAY_LAST_INDEX = 1;
     public final Integer ZERO_WIDTH = 0;
     public final Integer NEXT_INDEX = 1;
 
@@ -65,7 +65,7 @@ public class ParcelRowsGenerator {
 
     private StringBuilder fillRowBuffer(ArrayList<String> parcels, Integer i, Integer currentWidth) {
         StringBuilder rowBuffer = new StringBuilder(parcels.get(i));
-        for (Integer j = i + NEXT_INDEX; j < parcels.size(); j++) {
+        for (int j = i + NEXT_INDEX; j < parcels.size(); j++) {
             var right = parcels.get(j);
             if (right.isEmpty()) {
                 continue;

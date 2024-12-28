@@ -1,7 +1,9 @@
-package ru.liga.parcelmanager.processor.output;
+package ru.liga.parcelmanager.processor.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.liga.parcelmanager.model.entity.Truck;
+import ru.liga.parcelmanager.processor.OutputProcessor;
+import ru.liga.parcelmanager.shared.Constants;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,15 +14,20 @@ import java.util.List;
 @Slf4j
 public class TxtOutputProcessor implements OutputProcessor {
 
+    public static final String TRUCKS_TXT_PATH = "trucks.txt";
+    public static final int START_ARRAY_INDEX = 0;
+    public static final int TRUCK_INDEX_COLLISION = 1;
+    public static final String PARCELS_TXT_PATH = "parcels.txt";
+
     @Override
     public void writeTrucks(List<Truck> trucks) {
-        String baseDir = System.getProperty("user.dir");
-        File outputFile = new File(baseDir, "trucks.txt");
+        String baseDir = System.getProperty(Constants.BaseDirectory);
+        File outputFile = new File(baseDir, TRUCKS_TXT_PATH);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
-            for (int i = 0; i < trucks.size(); i++) {
+            for (int i = START_ARRAY_INDEX; i < trucks.size(); i++) {
                 Truck truck = trucks.get(i);
-                writer.write("Truck " + (i + 1) + ":\n");
+                writer.write("Truck " + (i + TRUCK_INDEX_COLLISION) + ":\n");
                 writer.write(truck.toString());
                 writer.write("\n");
             }
@@ -31,8 +38,8 @@ public class TxtOutputProcessor implements OutputProcessor {
 
     @Override
     public void writeParcels(List<String> parcels) {
-        String baseDir = System.getProperty("user.dir");
-        File outputFile = new File(baseDir, "parcels.txt");
+        String baseDir = System.getProperty(Constants.BaseDirectory);
+        File outputFile = new File(baseDir, PARCELS_TXT_PATH);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
             for (String parcel : parcels) {

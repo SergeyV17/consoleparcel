@@ -1,7 +1,6 @@
-package ru.liga.parcelmanager.validation;
+package ru.liga.parcelmanager.service;
 
 import org.junit.jupiter.api.Test;
-import ru.liga.parcelmanager.service.CommandValidationService;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;

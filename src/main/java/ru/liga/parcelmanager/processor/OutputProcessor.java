@@ -1,4 +1,4 @@
-package ru.liga.parcelmanager.processor.output;
+package ru.liga.parcelmanager.processor;
 
 import ru.liga.parcelmanager.model.entity.Truck;
 
