@@ -13,10 +13,12 @@ import java.io.IOException;
 @Slf4j
 public class TxtOutputProcessor implements OutputProcessor {
 
+    public static final String TXT_EXTENSION = ".txt";
+
     @Override
     public void write(Output<?> output) {
         String baseDir = System.getProperty(Constants.BaseDirectory);
-        File outputFile = new File(baseDir, output.getFilePath() + ".txt");
+        File outputFile = new File(baseDir, output.getFilePath() + TXT_EXTENSION);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile))) {
             for (String value : output.getValues().stream().map(Object::toString).toList()) {

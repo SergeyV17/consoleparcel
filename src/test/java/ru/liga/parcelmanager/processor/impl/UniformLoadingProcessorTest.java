@@ -2,6 +2,7 @@ package ru.liga.parcelmanager.processor.impl;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.processor.impl.shared.NumberOfTrucksCalculator;
 import ru.liga.parcelmanager.processor.impl.shared.ParcelRowsGenerator;
@@ -24,7 +25,8 @@ public class UniformLoadingProcessorTest {
         var rowGenerator = Mockito.mock(ParcelRowsGenerator.class);
         UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
                 rowGenerator,
-                Mockito.mock(NumberOfTrucksCalculator.class));
+                Mockito.mock(NumberOfTrucksCalculator.class),
+                new TruckFactory());
 
         List<String> cargo = new ArrayList<>(3);
         cargo.add("111111");
@@ -54,7 +56,8 @@ public class UniformLoadingProcessorTest {
         var rowGenerator = Mockito.mock(ParcelRowsGenerator.class);
         UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
                 rowGenerator,
-                Mockito.mock(NumberOfTrucksCalculator.class));
+                Mockito.mock(NumberOfTrucksCalculator.class),
+                new TruckFactory());
 
         List<String> cargo = new ArrayList<>();
         cargo.add("111111");
@@ -75,7 +78,8 @@ public class UniformLoadingProcessorTest {
         NumberOfTrucksCalculator numberOfTrucksCalculator = Mockito.mock(NumberOfTrucksCalculator.class);
         UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
                 rowsGenerator,
-                numberOfTrucksCalculator);
+                numberOfTrucksCalculator,
+                new TruckFactory());
 
         Map<Integer, List<String>> concatenatedCarcases = new HashMap<>();
         concatenatedCarcases.put(0, new ArrayList<>());
@@ -93,7 +97,8 @@ public class UniformLoadingProcessorTest {
         NumberOfTrucksCalculator numberOfTrucksCalculator = Mockito.mock(NumberOfTrucksCalculator.class);
         UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
                 rowsGenerator,
-                numberOfTrucksCalculator);
+                numberOfTrucksCalculator,
+                new TruckFactory());
 
         Map<Integer, List<String>> concatenatedCarcases = new HashMap<>();
         concatenatedCarcases.put(0, new ArrayList<>());

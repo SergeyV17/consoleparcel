@@ -1,6 +1,7 @@
 package ru.liga.parcelmanager.processor.impl;
 
 import lombok.RequiredArgsConstructor;
+import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.model.entity.Cargo;
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.processor.LoadingProcessor;
@@ -21,6 +22,7 @@ public class UniformLoadingProcessor implements LoadingProcessor {
 
     private final ParcelRowsGenerator rowsGenerator;
     private final NumberOfTrucksCalculator numberOfTrucksCalculator;
+    private final TruckFactory truckFactory;
 
     @Override
     public List<Truck> loadParcelsIntoTrucks(List<String> parcels, Integer numberOfTrucks) {
@@ -47,7 +49,7 @@ public class UniformLoadingProcessor implements LoadingProcessor {
             }
 
             counter++;
-            counter = resetCounterIfMoreThenTrackSize(counter, truckSize);
+            counter = resetCounter(counter, truckSize);
         }
         return parcelsByTruck;
     }
@@ -57,7 +59,7 @@ public class UniformLoadingProcessor implements LoadingProcessor {
 
         List<Truck> trucks = new ArrayList<>();
         for (int i = START_ARRAY_INDEX; i < concatenatedCarcases.size(); i++) {
-            Truck truck = new Truck();
+            Truck truck = truckFactory.createTruck();
             truck.loadTruck(new Cargo(concatenatedCarcases.get(i)));
             trucks.add(truck);
         }
@@ -65,7 +67,7 @@ public class UniformLoadingProcessor implements LoadingProcessor {
         return trucks;
     }
 
-    private Integer resetCounterIfMoreThenTrackSize(Integer counter, Integer truckSize) {
+    private Integer resetCounter(Integer counter, Integer truckSize) {
         if (counter > truckSize) {
             counter = START_COUNTER_VALUE;
         }

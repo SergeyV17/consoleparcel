@@ -1,6 +1,7 @@
 package ru.liga.parcelmanager.processor.impl;
 
 import org.junit.jupiter.api.Test;
+import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.processor.impl.shared.ParcelRowsGenerator;
 
@@ -13,7 +14,7 @@ class FullCapacityLoadingProcessorTest {
 
     @Test
     public void testLoadParcelsIntoTrucks_EmptyList_ReturnsEmptyList() {
-        FullCapacityLoadingProcessor processor = new FullCapacityLoadingProcessor(new ParcelRowsGenerator());
+        FullCapacityLoadingProcessor processor = new FullCapacityLoadingProcessor(new ParcelRowsGenerator(), new TruckFactory());
         List<String> cargo = new ArrayList<>();
         List<Truck> trucks = processor.loadParcelsIntoTrucks(cargo, null);
         assertThat(trucks).isEmpty();
@@ -21,7 +22,7 @@ class FullCapacityLoadingProcessorTest {
 
     @Test
     public void testLoadParcelsIntoTrucks_SingleParcel_ReturnsSingleTruck() {
-        FullCapacityLoadingProcessor processor = new FullCapacityLoadingProcessor(new ParcelRowsGenerator());
+        FullCapacityLoadingProcessor processor = new FullCapacityLoadingProcessor(new ParcelRowsGenerator(), new TruckFactory());
         List<String> parcel = List.of("111111");
         List<Truck> trucks = processor.loadParcelsIntoTrucks(parcel, null);
         assertThat(trucks).hasSize(1);
@@ -29,7 +30,7 @@ class FullCapacityLoadingProcessorTest {
 
     @Test
     public void testLoadParcelsIntoTrucks_MultipleParcels_ReturnsMultipleTrucks() {
-        FullCapacityLoadingProcessor processor = new FullCapacityLoadingProcessor(new ParcelRowsGenerator());
+        FullCapacityLoadingProcessor processor = new FullCapacityLoadingProcessor(new ParcelRowsGenerator(), new TruckFactory());
         List<String> cargo = List.of("111111", "222222", "333333", "444444", "555555", "666666", "777777");
         List<Truck> trucks = processor.loadParcelsIntoTrucks(cargo, null);
 
@@ -41,7 +42,7 @@ class FullCapacityLoadingProcessorTest {
 
     @Test
     public void testLoadParcelsIntoTrucks_ParcelsThatCanFitInOneTruck_ReturnsOneTruck() {
-        FullCapacityLoadingProcessor processor = new FullCapacityLoadingProcessor(new ParcelRowsGenerator());
+        FullCapacityLoadingProcessor processor = new FullCapacityLoadingProcessor(new ParcelRowsGenerator(), new TruckFactory());
         List<String> cargo = List.of("111111", "222222", "3333");
         List<Truck> trucks = processor.loadParcelsIntoTrucks(cargo, null);
 

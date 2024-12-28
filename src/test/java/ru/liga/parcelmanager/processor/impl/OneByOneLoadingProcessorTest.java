@@ -1,6 +1,7 @@
 package ru.liga.parcelmanager.processor.impl;
 
 import org.junit.jupiter.api.Test;
+import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.model.entity.Truck;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ class OneByOneLoadingProcessorTest {
 
     @Test
     public void testLoadParcelsIntoTrucks_EmptyList_ReturnsEmptyList() {
-        OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor();
+        OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor(new TruckFactory());
         List<String> cargo = new ArrayList<>();
         List<Truck> trucks = processor.loadParcelsIntoTrucks(cargo, null);
 
@@ -21,7 +22,7 @@ class OneByOneLoadingProcessorTest {
 
     @Test
     public void testLoadParcelsIntoTrucks_SingleParcel_ReturnsSingleTruck() {
-        OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor();
+        OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor(new TruckFactory());
         List<String> cargo = List.of("111111");
         List<Truck> trucks = processor.loadParcelsIntoTrucks(cargo, null);
 
@@ -31,7 +32,7 @@ class OneByOneLoadingProcessorTest {
 
     @Test
     public void testLoadParcelsIntoTrucks_MultipleParcels_ReturnsMultipleTrucks() {
-        OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor();
+        OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor(new TruckFactory());
         List<String> parcel = List.of("111111", "222222", "333333");
         List<Truck> trucks = processor.loadParcelsIntoTrucks(parcel, null);
 

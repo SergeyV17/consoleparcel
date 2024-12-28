@@ -17,11 +17,11 @@ public class LoadingProcessorService {
     private final FullCapacityLoadingProcessor fullCapacityLoadingProcessor;
     private final UniformLoadingProcessor uniformLoadingProcessor;
 
-    private final NumberOfTrucksValidationService numberOfTrucksValidator;
+    private final TruckValidationService numberOfTrucksValidator;
 
     public List<Truck> loadTrucks(List<String> parcels, LoadingMode mode, Integer numberOfTrucks) {
         if (numberOfTrucks != null) {
-            numberOfTrucksValidator.validate(numberOfTrucks, parcels, mode);
+            numberOfTrucksValidator.validateNumberOfTrucks(numberOfTrucks, parcels, mode);
         }
         LoadingProcessor loadingProcessor = getProcessorByLoadType(mode);
         return loadingProcessor.loadParcelsIntoTrucks(parcels, numberOfTrucks);

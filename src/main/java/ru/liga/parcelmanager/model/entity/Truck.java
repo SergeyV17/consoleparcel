@@ -21,11 +21,11 @@ public class Truck {
         cargo = new Cargo(new ArrayList<>());
     }
 
-    public void loadTruck(Cargo cargo) {
-        if (cargo.getParcels().size() > MAX_HEIGHT) {
+    public void loadTruck(Cargo newCargo) {
+        if (newCargo.getParcels().size() > MAX_HEIGHT) {
             throw new IllegalArgumentException("Truck cannot load more than " + MAX_HEIGHT);
         }
-        this.cargo = cargo;
+        cargo = newCargo;
     }
 
     @Override

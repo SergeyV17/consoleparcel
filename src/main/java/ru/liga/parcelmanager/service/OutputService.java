@@ -21,11 +21,10 @@ public class OutputService {
     }
 
     private OutputProcessor getOutputServiceByOutputType(OutputType outputType) {
-        switch (outputType) {
-            case CONSOLE -> {return consoleOutputProcessor;}
-            case JSON -> {return jsonOutputProcessor;}
-            case TXT -> {return txtOutputProcessor;}
-            default -> throw new IllegalArgumentException("Invalid output type: " + outputType);
-        }
+        return switch (outputType) {
+            case CONSOLE ->  consoleOutputProcessor;
+            case JSON -> jsonOutputProcessor;
+            case TXT -> txtOutputProcessor;
+        };
     }
 }

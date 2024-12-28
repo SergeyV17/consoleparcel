@@ -6,11 +6,11 @@ import ru.liga.parcelmanager.processor.impl.shared.NumberOfTrucksCalculator;
 
 import java.util.List;
 
-public class NumberOfTrucksValidationService {
+public class TruckValidationService {
 
-    private static final int Seed = 0;
+    private static final int SEED = 0;
 
-    public void validate(Integer numberOfTrucks, List<String> parcels, LoadingMode mode) {
+    public void validateNumberOfTrucks(Integer numberOfTrucks, List<String> parcels, LoadingMode mode) {
         switch (mode) {
             case LOADING_TO_CAPACITY -> {
                 int capacity = Truck.MAX_HEIGHT * Truck.MAX_WIDTH * numberOfTrucks;
@@ -34,6 +34,6 @@ public class NumberOfTrucksValidationService {
     }
 
     private Integer calculateParcelsVolume(List<String> parcels) {
-        return parcels.stream().map(String::length).reduce(Seed, Integer::sum);
+        return parcels.stream().map(String::length).reduce(SEED, Integer::sum);
     }
 }

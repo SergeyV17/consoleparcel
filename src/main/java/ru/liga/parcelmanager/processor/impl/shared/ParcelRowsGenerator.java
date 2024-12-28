@@ -18,7 +18,7 @@ public class ParcelRowsGenerator {
         return createRows(maxWidth, parcels);
     }
 
-    private ArrayList<String> createRows(Integer maxWidth, ArrayList<String> parcels) {
+    private List<String> createRows(Integer maxWidth, List<String> parcels) {
         var rows = new ArrayList<String>();
         for (Integer currentWidth = maxWidth; currentWidth > ZERO_WIDTH; currentWidth--) {
             for (Integer i = START_INDEX; i < parcels.size(); i++) {
@@ -39,10 +39,10 @@ public class ParcelRowsGenerator {
     }
 
     private boolean stockBufferWhenWidthExceed(
-            ArrayList<String> parcels,
+            List<String> parcels,
             Integer i,
             Integer currentWidth,
-            ArrayList<String> rows) {
+            List<String> rows) {
         if (parcels.get(i).length() == currentWidth) {
             rows.add(parcels.get(i));
             parcels.set(i, "");
@@ -52,10 +52,10 @@ public class ParcelRowsGenerator {
     }
 
     private void stockBufferWhenAllElementsProceed(
-            ArrayList<String> parcels,
+            List<String> parcels,
             StringBuilder rowBuffer,
             Integer currentWidth,
-            ArrayList<String> rows,
+            List<String> rows,
             Integer i) {
         if (rowBuffer.length() <= currentWidth) {
             rows.add(rowBuffer.toString());
@@ -63,7 +63,7 @@ public class ParcelRowsGenerator {
         }
     }
 
-    private StringBuilder fillRowBuffer(ArrayList<String> parcels, Integer i, Integer currentWidth) {
+    private StringBuilder fillRowBuffer(List<String> parcels, Integer i, Integer currentWidth) {
         StringBuilder rowBuffer = new StringBuilder(parcels.get(i));
         for (int j = i + NEXT_INDEX; j < parcels.size(); j++) {
             var right = parcels.get(j);
@@ -83,7 +83,7 @@ public class ParcelRowsGenerator {
     }
 
     private boolean stockBuffer(
-            ArrayList<String> parcels,
+            List<String> parcels,
             Integer i,
             Integer currentWidth,
             StringBuilder rowBuffer,
@@ -99,13 +99,14 @@ public class ParcelRowsGenerator {
     }
 
     private boolean stockBufferWhenWithExceed(
-            ArrayList<String> parcels,
+            List<String> parcels,
             Integer i,
             Integer currentWidth,
             StringBuilder rowBuffer,
             String right,
             Integer j) {
-        if (rowBuffer.length() + right.length() == currentWidth || j == parcels.size() - TO_ARRAY_LAST_INDEX) {
+        if (rowBuffer.length() + right.length() == currentWidth ||
+                j == parcels.size() - TO_ARRAY_LAST_INDEX) {
             rowBuffer.append(right);
             parcels.set(i, "");
             parcels.set(j, "");

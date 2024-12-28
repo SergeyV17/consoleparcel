@@ -12,11 +12,13 @@ import java.io.IOException;
 @Slf4j
 public class JsonOutputProcessor implements OutputProcessor {
 
+    public static final String JSON_EXTENSION = ".json";
+
     @Override
     public void write(Output<?> output) {
         try {
             String baseDir = System.getProperty(Constants.BaseDirectory);
-            File outputFile = new File(baseDir, output.getFilePath() + ".json");
+            File outputFile = new File(baseDir, output.getFilePath() + JSON_EXTENSION);
 
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(outputFile, output.getValues());

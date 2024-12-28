@@ -1,5 +1,8 @@
 package ru.liga.parcelmanager.service;
 
+import ru.liga.parcelmanager.exceptions.InvalidJsonException;
+import ru.liga.parcelmanager.exceptions.InvalidTxtException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,21 +14,27 @@ public class CommandValidationService {
 
     public String validateLoadTruckCommandAndGetFilePath(String command) {
         Matcher matcher = TXT_FILE_PATTERN.matcher(command);
-        checkFileNameAndThrow(matcher, "Invalid txt file: ", command);
+        checkTxtFileName(matcher, command);
 
         return matcher.group(FIRST_MATCHER_GROUP_NUMBER);
     }
 
     public String validateUnloadTruckCommandAndGetFilePath(String command) {
         Matcher matcher = JSON_FILE_PATTERN.matcher(command);
-        checkFileNameAndThrow(matcher, "Invalid json file: ", command);
+        checkJsonFileName(matcher, command);
 
         return matcher.group(FIRST_MATCHER_GROUP_NUMBER);
     }
 
-    private void checkFileNameAndThrow(Matcher matcher, String x, String command) {
+    private void checkJsonFileName(Matcher matcher, String command) {
         if (!matcher.matches()) {
-            throw new IllegalArgumentException(x + command);
+            throw new InvalidJsonException(command);
+        }
+    }
+
+    private void checkTxtFileName(Matcher matcher, String command) {
+        if (!matcher.matches()) {
+            throw new InvalidTxtException(command);
         }
     }
 }

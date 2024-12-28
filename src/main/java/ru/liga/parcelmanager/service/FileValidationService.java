@@ -12,13 +12,13 @@ public class FileValidationService {
     public static final String DELIMITER = "\r\n";
     private final Pattern FILE_LINE_PATTERN = Pattern.compile("^(\\d)\\1*$");
 
-    public void validate(List<String> parcels) {
-        if (parcels.isEmpty()) {
+    public void validate(List<String> parcelStrings) {
+        if (parcelStrings.isEmpty()) {
             throw new IllegalArgumentException("File lines cannot be empty.");
         }
 
         List<String> errors = new ArrayList<>();
-        parcels.forEach(parcel -> checkParcelForErrors(parcel, errors));
+        parcelStrings.forEach(parcel -> checkParcelForErrors(parcel, errors));
 
         if (!errors.isEmpty()) {
             var errorsString = String.join(DELIMITER, errors);

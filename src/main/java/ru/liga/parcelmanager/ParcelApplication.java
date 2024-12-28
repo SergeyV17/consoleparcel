@@ -1,6 +1,7 @@
 package ru.liga.parcelmanager;
 
 import ru.liga.parcelmanager.controller.ConsoleController;
+import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.processor.impl.shared.NumberOfTrucksCalculator;
 import ru.liga.parcelmanager.service.InputCommandService;
 import ru.liga.parcelmanager.service.LoadingProcessorService;
@@ -19,7 +20,7 @@ import ru.liga.parcelmanager.util.TxtParser;
 import ru.liga.parcelmanager.util.TxtReader;
 import ru.liga.parcelmanager.service.CommandValidationService;
 import ru.liga.parcelmanager.service.FileValidationService;
-import ru.liga.parcelmanager.service.NumberOfTrucksValidationService;
+import ru.liga.parcelmanager.service.TruckValidationService;
 
 import java.util.Scanner;
 
@@ -32,10 +33,10 @@ public class ParcelApplication {
 
     private static ConsoleController createConsoleController() {
         LoadingProcessorService loadingProcessorService = new LoadingProcessorService(
-                new OneByOneLoadingProcessor(),
-                new FullCapacityLoadingProcessor(new ParcelRowsGenerator()),
-                new UniformLoadingProcessor(new ParcelRowsGenerator(), new NumberOfTrucksCalculator()),
-                new NumberOfTrucksValidationService()
+                new OneByOneLoadingProcessor(new TruckFactory()),
+                new FullCapacityLoadingProcessor(new ParcelRowsGenerator(), new TruckFactory()),
+                new UniformLoadingProcessor(new ParcelRowsGenerator(), new NumberOfTrucksCalculator(), new TruckFactory()),
+                new TruckValidationService()
         );
 
         return new ConsoleController(

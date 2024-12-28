@@ -18,6 +18,13 @@ import java.util.regex.Pattern;
 public class InputCommandService {
 
     public static final String NUMBER_OF_TRUCKS_NOT_REQUIRED = "N";
+    public static final String JSON_OUTOUT_TYPE = "json";
+    public static final String CONSOLE_OUTPUT_TYPE = "console";
+    public static final String LOADING_TRUCKS_COMMAND = "loading trucks";
+    public static final String UNLOADING_TRUCKS_COMMAND = "unloading trucks";
+    public static final String LOADING_TO_CAPACITY_MODE = "loading to capacity";
+    public static final String ONE_BY_ONE_MODE = "one by one";
+    public static final String UNIFORM_MODE = "uniform";
     private final Pattern NUMBER_OF_TRUCKS_PATTERN = Pattern.compile("\\d+");
 
     private final CommandValidationService commandValidator;
@@ -49,17 +56,17 @@ public class InputCommandService {
 
     public ProgramMode selectProgramModeCommand(String command) {
         return switch (command) {
-            case "loading trucks" -> ProgramMode.LOADING_TRUCKS;
-            case "unloading trucks" ->  ProgramMode.UNLOADING_TRUCKS;
+            case LOADING_TRUCKS_COMMAND -> ProgramMode.LOADING_TRUCKS;
+            case UNLOADING_TRUCKS_COMMAND ->  ProgramMode.UNLOADING_TRUCKS;
             default -> throw new IllegalStateException("Invalid program mode: " + command);
         };
     }
 
     public LoadingMode selectLoadingModeCommand(String command) {
         return switch (command) {
-            case "loading to capacity" -> LoadingMode.LOADING_TO_CAPACITY;
-            case "one by one" ->  LoadingMode.ONE_BY_ONE;
-            case "uniform" -> LoadingMode.UNIFORM;
+            case LOADING_TO_CAPACITY_MODE -> LoadingMode.LOADING_TO_CAPACITY;
+            case ONE_BY_ONE_MODE ->  LoadingMode.ONE_BY_ONE;
+            case UNIFORM_MODE -> LoadingMode.UNIFORM;
             default -> throw new IllegalStateException("Invalid loading mode: " + command);
         };
     }
@@ -67,8 +74,8 @@ public class InputCommandService {
     public OutputType selectOutputTypeCommand(String command) {
         OutputType selectedOutputType;
         switch (command) {
-            case "json" -> selectedOutputType = OutputType.JSON;
-            case "console" -> selectedOutputType = OutputType.CONSOLE;
+            case JSON_OUTOUT_TYPE -> selectedOutputType = OutputType.JSON;
+            case CONSOLE_OUTPUT_TYPE -> selectedOutputType = OutputType.CONSOLE;
             default -> throw new IllegalStateException("Invalid output type: " + command);
         }
 
@@ -89,7 +96,7 @@ public class InputCommandService {
         throw new IllegalArgumentException("Invalid number of trucks: " + command);
     }
 
-    private static boolean isNumberOfTruckRequired(String command) {
+    private boolean isNumberOfTruckRequired(String command) {
         return command.equals(NUMBER_OF_TRUCKS_NOT_REQUIRED);
     }
 
