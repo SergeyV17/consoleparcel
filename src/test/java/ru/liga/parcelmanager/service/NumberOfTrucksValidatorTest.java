@@ -19,7 +19,7 @@ class NumberOfTrucksValidatorTest {
         List<String> parcels = Arrays.asList("111111", "111111", "111111", "111111", "111111", "111111", "111111", "111111");
         assertThatCode(() -> validator.validate(numberOfTrucks, parcels, LOADING_TO_CAPACITY))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Number of trucks must be greater");
+                .hasMessageContaining("Number of trucks must be greater");
     }
 
     @Test

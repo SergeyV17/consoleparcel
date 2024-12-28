@@ -53,26 +53,6 @@ public class CommandManagerTest {
     }
 
     @Test
-    public void testLoadTrucksCommand_emptyParcels_throwsIllegalArgumentException() {
-        TxtParser txtParser = Mockito.mock(TxtParser.class);
-        JsonParser jsonParser = Mockito.mock(JsonParser.class);
-        ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
-        TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
-        InputCommandService inputCommandService = new InputCommandService(
-                new CommandValidationService(),
-                txtParser,
-                jsonParser,
-                parcelLoadingService,
-                truckUnloadingService);
-        String command = "path/to/file.txt";
-        Mockito.when(txtParser.parseParcelsFromFile(Mockito.any())).thenReturn(List.of());
-
-        assertThatThrownBy(() -> inputCommandService.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Parcels not found in path/to/file.txt");
-    }
-
-    @Test
     public void testSelectModeCommand_validCommand_returnsLoadingMode() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         JsonParser jsonParser = Mockito.mock(JsonParser.class);

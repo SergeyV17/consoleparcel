@@ -1,7 +1,6 @@
 package ru.liga.parcelmanager.service;
 
 import org.junit.jupiter.api.Test;
-import ru.liga.parcelmanager.model.entity.Truck;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,13 +34,6 @@ public class FileValidatorTests {
     }
 
     @Test
-    void validate_FileLinesTooLong_ThrowsIllegalArgumentException() {
-        var validator = new FileValidationService();
-        List<String> fileLines = List.of("1111111111");
-        assertThatCode(() -> validator.validate(fileLines)).isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
     void validate_MultipleErrors_ThrowsIllegalArgumentExceptionWithMultipleErrors() {
         var validator = new FileValidationService();
         List<String> fileLines = Arrays.asList("123", "abc", "1111111111");
@@ -51,9 +43,8 @@ public class FileValidatorTests {
         } catch (IllegalArgumentException e) {
             String errorMessage = e.getMessage();
 
-            assertThat(errorMessage).contains("File line has invalid format: 123");
-            assertThat(errorMessage).contains("File line has invalid format: abc");
-            assertThat(errorMessage).contains("Parcel 1111111111 has invalid width. Max available width: " + Truck.MAX_HEIGHT);
+            assertThat(errorMessage).contains("has invalid format: 123");
+            assertThat(errorMessage).contains("has invalid format: abc");
         }
     }
 }

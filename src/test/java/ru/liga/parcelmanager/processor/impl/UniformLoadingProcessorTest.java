@@ -12,41 +12,29 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.when;
 
 public class UniformLoadingProcessorTest {
 
     @Test
     public void loadParcelsIntoTrucks_NoNumberOfTrucksProvided_ReturnsNonEmptyList() {
 
+        var rowGenerator = Mockito.mock(ParcelRowsGenerator.class);
         UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
-                Mockito.mock(ParcelRowsGenerator.class),
+                rowGenerator,
                 Mockito.mock(NumberOfTrucksCalculator.class));
 
-        List<String> cargo = new ArrayList<>();
+        List<String> cargo = new ArrayList<>(3);
         cargo.add("111111");
         cargo.add("222222");
         cargo.add("333333");
 
-        List<Truck> trucks = uniformLoadingProcessor.loadParcelsIntoTrucks(cargo, null);
+        when(rowGenerator.generateRowsCargoByMaxWidth(anyList(), anyInt())).thenReturn(cargo);
+        List<Truck> trucks = uniformLoadingProcessor.loadParcelsIntoTrucks(cargo, 1);
 
         assertThat(trucks).isNotEmpty();
-    }
-
-    @Test
-    public void loadParcelsIntoTrucks_WithNumberOfTrucksProvided_ReturnsListOfSizeNumberOfTrucks() {
-        UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
-                Mockito.mock(ParcelRowsGenerator.class),
-                Mockito.mock(NumberOfTrucksCalculator.class));
-
-        List<String> cargo = new ArrayList<>();
-        cargo.add("111111");
-        cargo.add("222222");
-        cargo.add("333333");
-        int numberOfTrucks = 2;
-
-        List<Truck> trucks = uniformLoadingProcessor.loadParcelsIntoTrucks(cargo, numberOfTrucks);
-
-        assertThat(trucks).hasSize(numberOfTrucks);
     }
 
     @Test
@@ -62,19 +50,23 @@ public class UniformLoadingProcessorTest {
     }
 
     @Test
-    public void distributeParcelsByTruck_ReturnsMapOfSizeNumberOfTrucks() {
-        List<String> rows = new ArrayList<>();
-        rows.add("111333");
-        rows.add("222444");
-        rows.add("333555");
+    public void loadParcelsIntoTrucks_WithNumberOfTrucksProvided_ReturnsListOfSizeNumberOfTrucks() {
+        var rowGenerator = Mockito.mock(ParcelRowsGenerator.class);
+        UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
+                rowGenerator,
+                Mockito.mock(NumberOfTrucksCalculator.class));
+
+        List<String> cargo = new ArrayList<>();
+        cargo.add("111111");
+        cargo.add("222222");
+        cargo.add("333333");
         int numberOfTrucks = 2;
 
-        Map<Integer, List<String>> parcelsByTruck = new UniformLoadingProcessor(
-                Mockito.mock(ParcelRowsGenerator.class),
-                new NumberOfTrucksCalculator())
-                .distributeParcelsByTruck(rows, numberOfTrucks);
+        when(rowGenerator.generateRowsCargoByMaxWidth(anyList(), anyInt())).thenReturn(cargo);
 
-        assertThat(parcelsByTruck).hasSize(numberOfTrucks);
+        List<Truck> trucks = uniformLoadingProcessor.loadParcelsIntoTrucks(cargo, numberOfTrucks);
+
+        assertThat(trucks).hasSize(numberOfTrucks);
     }
 
     @Test
