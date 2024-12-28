@@ -1,8 +1,6 @@
 package ru.liga.parcelmanager.processor.impl;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.model.entity.Truck;
 
 import java.util.ArrayList;
@@ -14,8 +12,7 @@ class OneByOneLoadingProcessorTest {
 
     @Test
     public void testLoadParcelsIntoTrucks_EmptyList_ReturnsEmptyList() {
-        TruckFactory truckFactory = Mockito.mock(TruckFactory.class);
-        OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor(truckFactory);
+        OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor();
         List<String> cargo = new ArrayList<>();
         List<Truck> trucks = processor.loadParcelsIntoTrucks(cargo, null);
 
@@ -24,8 +21,7 @@ class OneByOneLoadingProcessorTest {
 
     @Test
     public void testLoadParcelsIntoTrucks_SingleParcel_ReturnsSingleTruck() {
-        TruckFactory truckFactory = Mockito.mock(TruckFactory.class);
-        OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor(truckFactory);
+        OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor();
         List<String> cargo = List.of("111111");
         List<Truck> trucks = processor.loadParcelsIntoTrucks(cargo, null);
 
@@ -35,8 +31,7 @@ class OneByOneLoadingProcessorTest {
 
     @Test
     public void testLoadParcelsIntoTrucks_MultipleParcels_ReturnsMultipleTrucks() {
-        TruckFactory truckFactory = Mockito.mock(TruckFactory.class);
-        OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor(truckFactory);
+        OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor();
         List<String> parcel = List.of("111111", "222222", "333333");
         List<Truck> trucks = processor.loadParcelsIntoTrucks(parcel, null);
 

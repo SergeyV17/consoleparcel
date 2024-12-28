@@ -1,25 +1,16 @@
 package ru.liga.parcelmanager.processor.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.liga.parcelmanager.model.entity.Truck;
+import ru.liga.parcelmanager.model.Output;
 import ru.liga.parcelmanager.processor.OutputProcessor;
-
-import java.util.List;
 
 @Slf4j
 public class ConsoleOutputProcessor implements OutputProcessor {
 
     @Override
-    public void writeTrucks(List<Truck> trucks) {
-        for (Truck truck : trucks) {
-            log.info(truck.toString());
-        }
-    }
-
-    @Override
-    public void writeParcels(List<String> parcels) {
-        for (String parcel : parcels) {
-            log.info(parcel);
+    public void write(Output<?> output) {
+        for (String value : output.getValues().stream().map(Object::toString).toList()) {
+            log.info(value);
         }
     }
 }

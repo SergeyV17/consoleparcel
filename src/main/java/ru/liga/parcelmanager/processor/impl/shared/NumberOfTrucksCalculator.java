@@ -11,7 +11,7 @@ public class NumberOfTrucksCalculator {
     private static final Integer SEED = 0;
 
     public Integer calculateNumberOfTrucks(List<String> cargo) {
-        Integer cargoVolume = Truck.MAX_HEIGHT * Truck.MAX_WIDTH;
+        Integer cargoVolume = Truck.MAX_WIDTH * Truck.MAX_HEIGHT;
         Integer parcelsVolume = cargo.stream().map(String::length).reduce(SEED, Integer::sum);
 
         int numberOfTrucks = parcelsVolume / cargoVolume;

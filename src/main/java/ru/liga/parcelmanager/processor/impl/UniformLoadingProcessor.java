@@ -1,7 +1,6 @@
 package ru.liga.parcelmanager.processor.impl;
 
 import lombok.RequiredArgsConstructor;
-import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.model.entity.Cargo;
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.processor.LoadingProcessor;
@@ -20,7 +19,6 @@ public class UniformLoadingProcessor implements LoadingProcessor {
     public static final int START_COUNTER_VALUE = 0;
     public static final int START_ARRAY_INDEX = 0;
 
-    private final TruckFactory truckFactory;
     private final ParcelRowsGenerator rowsGenerator;
     private final NumberOfTrucksCalculator numberOfTrucksCalculator;
 
@@ -59,7 +57,9 @@ public class UniformLoadingProcessor implements LoadingProcessor {
 
         List<Truck> trucks = new ArrayList<>();
         for (int i = START_ARRAY_INDEX; i < concatenatedCarcases.size(); i++) {
-            trucks.add(truckFactory.createTruck(new Cargo(concatenatedCarcases.get(i))));
+            Truck truck = new Truck();
+            truck.loadTruck(new Cargo(concatenatedCarcases.get(i)));
+            trucks.add(truck);
         }
 
         return trucks;

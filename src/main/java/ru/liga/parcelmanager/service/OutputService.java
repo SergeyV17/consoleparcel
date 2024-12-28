@@ -1,21 +1,31 @@
 package ru.liga.parcelmanager.service;
 
 import lombok.RequiredArgsConstructor;
-import ru.liga.parcelmanager.model.entity.Truck;
+import ru.liga.parcelmanager.model.Output;
 import ru.liga.parcelmanager.model.enums.OutputType;
-
-import java.util.List;
+import ru.liga.parcelmanager.processor.impl.ConsoleOutputProcessor;
+import ru.liga.parcelmanager.processor.impl.JsonOutputProcessor;
+import ru.liga.parcelmanager.processor.OutputProcessor;
+import ru.liga.parcelmanager.processor.impl.TxtOutputProcessor;
 
 @RequiredArgsConstructor
 public class OutputService {
 
-    private final OutputProcessorService outputProcessorManager;
+    private final ConsoleOutputProcessor consoleOutputProcessor;
+    private final JsonOutputProcessor jsonOutputProcessor;
+    private final TxtOutputProcessor txtOutputProcessor;
 
-    public void sendTrucksToOutput(List<Truck> trucks, OutputType outputType) {
-        outputProcessorManager.sendTrucksToOutput(trucks, outputType);
+    public void sendValuesToOutput(Output<?> output) {
+        OutputProcessor outputProcessor = getOutputServiceByOutputType(output.getOutputType());
+        outputProcessor.write(output);
     }
 
-    public void sendParcelsToOutput(List<String> parcels) {
-        outputProcessorManager.sendParcelsToOutput(parcels, OutputType.TXT);
+    private OutputProcessor getOutputServiceByOutputType(OutputType outputType) {
+        switch (outputType) {
+            case CONSOLE -> {return consoleOutputProcessor;}
+            case JSON -> {return jsonOutputProcessor;}
+            case TXT -> {return txtOutputProcessor;}
+            default -> throw new IllegalArgumentException("Invalid output type: " + outputType);
+        }
     }
 }

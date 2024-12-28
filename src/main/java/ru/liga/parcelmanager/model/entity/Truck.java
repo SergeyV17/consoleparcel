@@ -9,9 +9,12 @@ public class Truck {
 
     public static final int MAX_HEIGHT = 6;
     public static final int MAX_WIDTH = 6;
-    public static final int TO_ARRAY_LAST_INDEX = 1;
-    public static final int ARRAY_START_INDEX = 0;
 
+    private static final int TO_ARRAY_LAST_INDEX = 1;
+    private static final int ARRAY_START_INDEX = 0;
+
+    private final int height = MAX_HEIGHT;
+    private final int width = MAX_WIDTH;
     private Cargo cargo;
 
     public Truck() {
@@ -33,7 +36,7 @@ public class Truck {
 
         var stringBuilder = new StringBuilder();
         stringBuilder.append("\n");
-        for (int i = Truck.MAX_HEIGHT - TO_ARRAY_LAST_INDEX; i >= ARRAY_START_INDEX; i--) {
+        for (int i = MAX_HEIGHT - TO_ARRAY_LAST_INDEX; i >= ARRAY_START_INDEX; i--) {
             String currentElement = cargo.getParcels().size() > i ? cargo.getParcels().get(i) : "";
 
             stringBuilder.append("+");

@@ -1,11 +1,8 @@
 package ru.liga.parcelmanager.processor;
 
-import ru.liga.parcelmanager.model.entity.Truck;
-
-import java.util.List;
+import ru.liga.parcelmanager.model.Output;
 
 public interface OutputProcessor {
 
-    void writeTrucks(List<Truck> trucks);
-    void writeParcels(List<String> parcels);
+    void write(Output<?> output);
 }

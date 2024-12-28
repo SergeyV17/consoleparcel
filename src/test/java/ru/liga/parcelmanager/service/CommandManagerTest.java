@@ -3,7 +3,6 @@ package ru.liga.parcelmanager.service;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.liga.parcelmanager.model.enums.LoadingMode;
-import ru.liga.parcelmanager.model.enums.OutputType;
 import ru.liga.parcelmanager.util.JsonParser;
 import ru.liga.parcelmanager.util.TxtParser;
 
@@ -21,19 +20,17 @@ public class CommandManagerTest {
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
-        OutputService outputService = Mockito.mock(OutputService.class);
         InputCommandService inputCommandService = new InputCommandService(
                 new CommandValidationService(),
                 txtParser,
                 jsonParser,
                 parcelLoadingService,
-                truckUnloadingService,
-                outputService);
+                truckUnloadingService);
         String command = "path/to/file.txt";
         List<String> parcels = List.of("parcel1", "parcel2");
-        Mockito.when(txtParser.parseCargoFromFile(Mockito.any())).thenReturn(parcels);
+        Mockito.when(txtParser.parseParcelsFromFile(Mockito.any())).thenReturn(parcels);
 
-        assertThatCode(() -> inputCommandService.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null, OutputType.CONSOLE)).doesNotThrowAnyException();
+        assertThatCode(() -> inputCommandService.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null)).doesNotThrowAnyException();
     }
 
     @Test
@@ -42,17 +39,15 @@ public class CommandManagerTest {
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
-        OutputService outputService = Mockito.mock(OutputService.class);
         InputCommandService inputCommandService = new InputCommandService(
                 new CommandValidationService(),
                 txtParser,
                 jsonParser,
                 parcelLoadingService,
-                truckUnloadingService,
-                outputService);
+                truckUnloadingService);
         String command = "invalid command";
 
-        assertThatThrownBy(() -> inputCommandService.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null, OutputType.CONSOLE))
+        assertThatThrownBy(() -> inputCommandService.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("invalid command");
     }
@@ -63,18 +58,16 @@ public class CommandManagerTest {
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
-        OutputService outputService = Mockito.mock(OutputService.class);
         InputCommandService inputCommandService = new InputCommandService(
                 new CommandValidationService(),
                 txtParser,
                 jsonParser,
                 parcelLoadingService,
-                truckUnloadingService,
-                outputService);
+                truckUnloadingService);
         String command = "path/to/file.txt";
-        Mockito.when(txtParser.parseCargoFromFile(Mockito.any())).thenReturn(List.of());
+        Mockito.when(txtParser.parseParcelsFromFile(Mockito.any())).thenReturn(List.of());
 
-        assertThatThrownBy(() -> inputCommandService.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null, OutputType.CONSOLE))
+        assertThatThrownBy(() -> inputCommandService.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Parcels not found in path/to/file.txt");
     }
@@ -85,14 +78,12 @@ public class CommandManagerTest {
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
-        OutputService outputService = Mockito.mock(OutputService.class);
         InputCommandService inputCommandService = new InputCommandService(
                 new CommandValidationService(),
                 txtParser,
                 jsonParser,
                 parcelLoadingService,
-                truckUnloadingService,
-                outputService);
+                truckUnloadingService);
         String command = "loading to capacity";
 
         LoadingMode mode = inputCommandService.selectLoadingModeCommand(command);
@@ -106,14 +97,12 @@ public class CommandManagerTest {
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
-        OutputService outputService = Mockito.mock(OutputService.class);
         InputCommandService inputCommandService = new InputCommandService(
                 new CommandValidationService(),
                 txtParser,
                 jsonParser,
                 parcelLoadingService,
-                truckUnloadingService,
-                outputService);
+                truckUnloadingService);
         String command = "invalid command";
 
         assertThatThrownBy(() -> inputCommandService.selectLoadingModeCommand(command))

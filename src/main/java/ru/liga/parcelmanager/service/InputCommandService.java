@@ -26,33 +26,25 @@ public class InputCommandService {
     private final JsonParser jsonParser;
     private final ParcelLoadingService parcelLoadingService;
     private final TruckUnloadingService truckUnloadingService;
-    private final OutputService outputService;
 
-    public void loadTrucksCommand(String command, LoadingMode mode, Integer numberOfTrucks, OutputType outputType) {
+    public List<Truck> loadTrucksCommand(String command, LoadingMode mode, Integer numberOfTrucks) {
         String filePath = commandValidator.validateLoadTruckCommandAndGetFilePath(command);
 
         log.info("Start loading parcels into trucks...");
-        List<String> parcels = txtParser.parseCargoFromFile(filePath);
+        List<String> parcels = txtParser.parseParcelsFromFile(filePath);
 
-        List<Truck> parcelsWithinTrucks = parcelLoadingService.loadParcelsIntoTrucks(parcels, mode, numberOfTrucks);
-
-        log.info("Sending trucks to output...");
-        outputService.sendTrucksToOutput(parcelsWithinTrucks, outputType);
-
+        List<Truck> trucks = parcelLoadingService.loadParcelsIntoTrucks(parcels, mode, numberOfTrucks);
         log.info("Loading parcels into trucks completed");
+
+        return trucks;
     }
 
-    public void unloadTrucksCommand(String command) {
+    public List<String> unloadTrucksCommand(String command) {
         String filePath = commandValidator.validateUnloadTruckCommandAndGetFilePath(command);
 
         log.info("Start unloading trucks into parcels...");
         List<Truck> trucks = jsonParser.parseTrucksFromJson(filePath);
-        List<String> parcels = truckUnloadingService.unloadParcelsFromTrucks(trucks);
-
-        log.info("Sending parcels to output...");
-        outputService.sendParcelsToOutput(parcels);
-
-        log.info("Unload trucks into parcels completed");
+        return truckUnloadingService.unloadParcelsFromTrucks(trucks);
     }
 
     public ProgramMode selectProgramModeCommand(String command) {
@@ -99,5 +91,13 @@ public class InputCommandService {
 
     private static boolean isNumberOfTruckRequired(String command) {
         return command.equals(NUMBER_OF_TRUCKS_NOT_REQUIRED);
+    }
+
+    public boolean isExitCommand(String command) {
+        return command.equals("exit");
+    }
+
+    public boolean isSelectProgramModeCommand(String command) {
+        return command.equals("loading trucks") || command.equals("unloading trucks");
     }
 }

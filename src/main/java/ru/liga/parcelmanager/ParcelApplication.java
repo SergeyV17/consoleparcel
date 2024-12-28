@@ -1,19 +1,16 @@
 package ru.liga.parcelmanager;
 
 import ru.liga.parcelmanager.controller.ConsoleController;
-import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.processor.impl.shared.NumberOfTrucksCalculator;
 import ru.liga.parcelmanager.service.InputCommandService;
-import ru.liga.parcelmanager.service.FeatureService;
 import ru.liga.parcelmanager.service.LoadingProcessorService;
-import ru.liga.parcelmanager.service.OutputProcessorService;
+import ru.liga.parcelmanager.service.OutputService;
 import ru.liga.parcelmanager.processor.impl.FullCapacityLoadingProcessor;
 import ru.liga.parcelmanager.processor.impl.OneByOneLoadingProcessor;
 import ru.liga.parcelmanager.processor.impl.UniformLoadingProcessor;
 import ru.liga.parcelmanager.processor.impl.shared.ParcelRowsGenerator;
 import ru.liga.parcelmanager.processor.impl.JsonOutputProcessor;
 import ru.liga.parcelmanager.processor.impl.TxtOutputProcessor;
-import ru.liga.parcelmanager.service.OutputService;
 import ru.liga.parcelmanager.service.ParcelLoadingService;
 import ru.liga.parcelmanager.processor.impl.ConsoleOutputProcessor;
 import ru.liga.parcelmanager.service.TruckUnloadingService;
@@ -34,28 +31,25 @@ public class ParcelApplication {
     }
 
     private static ConsoleController createConsoleController() {
-        LoadingProcessorService loadingProcessorManager = new LoadingProcessorService(
-                new OneByOneLoadingProcessor(new TruckFactory()),
-                new FullCapacityLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator()),
-                new UniformLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator(), new NumberOfTrucksCalculator()),
+        LoadingProcessorService loadingProcessorService = new LoadingProcessorService(
+                new OneByOneLoadingProcessor(),
+                new FullCapacityLoadingProcessor(new ParcelRowsGenerator()),
+                new UniformLoadingProcessor(new ParcelRowsGenerator(), new NumberOfTrucksCalculator()),
                 new NumberOfTrucksValidationService()
         );
 
-        OutputProcessorService outputProcessorManager = new OutputProcessorService(
-                new ConsoleOutputProcessor(),
-                new JsonOutputProcessor(),
-                new TxtOutputProcessor()
-        );
-
         return new ConsoleController(
-                new FeatureService(
-                        new Scanner(System.in),
-                        new InputCommandService(
-                                new CommandValidationService(),
-                                new TxtParser(new TxtReader(), new FileValidationService()),
-                                new JsonParser(),
-                                new ParcelLoadingService(loadingProcessorManager),
-                                new TruckUnloadingService(),
-                                new OutputService(outputProcessorManager))));
+                new Scanner(System.in),
+                new InputCommandService(
+                        new CommandValidationService(),
+                        new TxtParser(new TxtReader(), new FileValidationService()),
+                        new JsonParser(),
+                        new ParcelLoadingService(loadingProcessorService),
+                        new TruckUnloadingService()),
+                new OutputService(
+                        new ConsoleOutputProcessor(),
+                        new JsonOutputProcessor(),
+                        new TxtOutputProcessor()
+                ));
     }
 }

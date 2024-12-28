@@ -12,15 +12,10 @@ import java.util.stream.Collectors;
 public class TxtParser {
 
     private final TxtReader txtReader;
-
     private final FileValidationService fileValidator;
 
-    public List<String> parseCargoFromFile(String filePath) {
-        List<String> fileLines = txtReader.readAllLines(filePath)
-                .stream()
-                .filter(line -> !line.isEmpty())
-                .map(String::trim)
-                .collect(Collectors.toList());
+    public List<String> parseParcelsFromFile(String filePath) {
+        List<String> fileLines = readParcelsFromFile(filePath);
 
         try {
             fileValidator.validate(fileLines);
@@ -34,5 +29,13 @@ public class TxtParser {
         }
 
         return fileLines;
+    }
+
+    private List<String> readParcelsFromFile(String filePath) {
+        return txtReader.readAllLines(filePath)
+                .stream()
+                .filter(line -> !line.isEmpty())
+                .map(String::trim)
+                .collect(Collectors.toList());
     }
 }

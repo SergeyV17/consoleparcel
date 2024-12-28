@@ -53,7 +53,7 @@ public class FileValidatorTests {
 
             assertThat(errorMessage).contains("File line has invalid format: 123");
             assertThat(errorMessage).contains("File line has invalid format: abc");
-            assertThat(errorMessage).contains("Parcel 1111111111 has invalid width. Max available width: " + Truck.MAX_WIDTH);
+            assertThat(errorMessage).contains("Parcel 1111111111 has invalid width. Max available width: " + Truck.MAX_HEIGHT);
         }
     }
 }

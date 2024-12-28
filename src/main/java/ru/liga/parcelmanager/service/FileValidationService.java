@@ -1,7 +1,6 @@
 package ru.liga.parcelmanager.service;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.liga.parcelmanager.model.entity.Truck;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,25 +12,23 @@ public class FileValidationService {
     public static final String DELIMITER = "\r\n";
     private final Pattern FILE_LINE_PATTERN = Pattern.compile("^(\\d)\\1*$");
 
-    public void validate(List<String> parcel) {
-        if (parcel.isEmpty()) {
+    public void validate(List<String> parcels) {
+        if (parcels.isEmpty()) {
             throw new IllegalArgumentException("File lines cannot be empty.");
         }
 
         List<String> errors = new ArrayList<>();
-        parcel.forEach(line -> {
-            if (!FILE_LINE_PATTERN.matcher(line).matches()) {
-                errors.add("File line has invalid format: " + line);
-            }
-
-            if (line.length() > Truck.MAX_WIDTH) {
-                errors.add(String.format("Parcel %s has invalid width. Max available width: %s", line, Truck.MAX_WIDTH));
-            }
-        });
+        parcels.forEach(parcel -> checkParcelForErrors(parcel, errors));
 
         if (!errors.isEmpty()) {
             var errorsString = String.join(DELIMITER, errors);
             throw new IllegalArgumentException(errorsString);
+        }
+    }
+
+    private void checkParcelForErrors(String parcel, List<String> errors) {
+        if (!FILE_LINE_PATTERN.matcher(parcel).matches()) {
+            errors.add("File parcel has invalid format: " + parcel);
         }
     }
 }
