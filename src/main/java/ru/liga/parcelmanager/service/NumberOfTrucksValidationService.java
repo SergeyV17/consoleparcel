@@ -2,7 +2,7 @@ package ru.liga.parcelmanager.service;
 
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.model.enums.LoadingMode;
-import ru.liga.parcelmanager.processor.loading.UniformLoadingProcessor;
+import ru.liga.parcelmanager.processor.loading.shared.NumberOfTrucksCalculator;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ public class NumberOfTrucksValidationService {
     public void validate(Integer numberOfTrucks, List<String> parcels, LoadingMode mode) {
         switch (mode) {
             case LOADING_TO_CAPACITY -> {
-                Integer capacity = Truck.MAX_HEIGHT * Truck.MAX_WIDTH * numberOfTrucks;
-                Integer parcelsVolume = parcels.stream().map(String::length).reduce(Seed, Integer::sum);
+                int capacity = Truck.MAX_HEIGHT * Truck.MAX_WIDTH * numberOfTrucks;
+                Integer parcelsVolume = calculateParcelsVolume(parcels);
                 if (capacity < parcelsVolume) {
                     throw new IllegalArgumentException(
                             String.format("Number of trucks must be greater. Current number of trucks: %1$s", numberOfTrucks));
@@ -26,10 +26,14 @@ public class NumberOfTrucksValidationService {
                 }
             }
             case UNIFORM -> {
-                Integer minimumNumberOfTrucks = UniformLoadingProcessor.calculateNumberOfTrucks(parcels);
+                Integer minimumNumberOfTrucks = new NumberOfTrucksCalculator().calculateNumberOfTrucks(parcels);
                 if (numberOfTrucks < minimumNumberOfTrucks)
                     throw new IllegalArgumentException("Number of trucks must be greater than or equal to " + minimumNumberOfTrucks);
             }
         }
+    }
+
+    private Integer calculateParcelsVolume(List<String> parcels) {
+        return parcels.stream().map(String::length).reduce(Seed, Integer::sum);
     }
 }

@@ -24,7 +24,7 @@ public class LoadingProcessorService {
             numberOfTrucksValidator.validate(numberOfTrucks, parcels, mode);
         }
         LoadingProcessor loadingProcessor = getProcessorByLoadType(mode);
-        return loadingProcessor.loadCargosIntoTrucks(parcels, numberOfTrucks);
+        return loadingProcessor.loadParcelsIntoTrucks(parcels, numberOfTrucks);
     }
 
     private LoadingProcessor getProcessorByLoadType(LoadingMode mode) {

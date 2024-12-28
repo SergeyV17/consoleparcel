@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface LoadingProcessor {
 
-    List<Truck> loadCargosIntoTrucks(List<String> cargos, Integer numberOfTrucks);
+    List<Truck> loadParcelsIntoTrucks(List<String> parcels, Integer numberOfTrucks);
 }

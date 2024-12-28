@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.model.entity.Cargo;
 import ru.liga.parcelmanager.model.entity.Truck;
+import ru.liga.parcelmanager.processor.loading.shared.NumberOfTrucksCalculator;
 import ru.liga.parcelmanager.processor.loading.shared.ParcelRowsGenerator;
 
 import java.util.ArrayList;
@@ -14,30 +15,20 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UniformLoadingProcessor implements LoadingProcessor {
 
-    public static final Integer DIVISION_WITHOUT_REMAINDER_FLAG = 0;
     public static final int TO_ARRAY_LAST_INDEX = 1;
     public static final int START_COUNTER_VALUE = 0;
     public static final int START_ARRAY_INDEX = 0;
+
     private final TruckFactory truckFactory;
     private final ParcelRowsGenerator rowsGenerator;
+    private final NumberOfTrucksCalculator numberOfTrucksCalculator;
 
     @Override
-    public List<Truck> loadCargosIntoTrucks(List<String> cargo, Integer numberOfTrucks) {
+    public List<Truck> loadParcelsIntoTrucks(List<String> parcels, Integer numberOfTrucks) {
         Map<Integer, List<String>> parcelsByTruck = distributeParcelsByTruck(
-                rowsGenerator.generateRowsCargoByMaxWidth(cargo, Truck.MAX_WIDTH),
-                numberOfTrucks == null ? calculateNumberOfTrucks(cargo) : numberOfTrucks);
+                rowsGenerator.generateRowsCargoByMaxWidth(parcels, Truck.MAX_WIDTH),
+                numberOfTrucks == null ? numberOfTrucksCalculator.calculateNumberOfTrucks(parcels) : numberOfTrucks);
         return createTrucksByConcatenatedStringCarcases(parcelsByTruck);
-    }
-
-    public Integer calculateNumberOfTrucks(List<String> cargo) {
-        Integer cargoVolume = Truck.MAX_HEIGHT * Truck.MAX_WIDTH;
-        Integer parcelsVolume = cargo.stream().map(String::length).reduce(0, Integer::sum);
-
-        Integer numberOfTrucks = parcelsVolume / cargoVolume;
-        if (parcelsVolume % cargoVolume != DIVISION_WITHOUT_REMAINDER_FLAG) {
-            numberOfTrucks += 1;
-        }
-        return numberOfTrucks;
     }
 
     public Map<Integer, List<String>> distributeParcelsByTruck(
@@ -66,7 +57,7 @@ public class UniformLoadingProcessor implements LoadingProcessor {
             Map<Integer, List<String>> concatenatedCarcases) {
 
         List<Truck> trucks = new ArrayList<>();
-        for (Integer i = START_ARRAY_INDEX; i < concatenatedCarcases.size(); i++) {
+        for (int i = START_ARRAY_INDEX; i < concatenatedCarcases.size(); i++) {
             trucks.add(truckFactory.createTruck(new Cargo(concatenatedCarcases.get(i))));
         }
 

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.model.entity.Truck;
+import ru.liga.parcelmanager.processor.loading.shared.NumberOfTrucksCalculator;
 import ru.liga.parcelmanager.processor.loading.shared.ParcelRowsGenerator;
 
 import java.util.ArrayList;
@@ -16,26 +17,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UniformLoadingProcessorTest {
 
     @Test
-    public void loadCargosIntoTrucks_NoNumberOfTrucksProvided_ReturnsNonEmptyList() {
+    public void loadParcelsIntoTrucks_NoNumberOfTrucksProvided_ReturnsNonEmptyList() {
         UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
                 new TruckFactory(),
-                new ParcelRowsGenerator());
+                new ParcelRowsGenerator(),
+                new NumberOfTrucksCalculator());
 
         List<String> cargo = new ArrayList<>();
         cargo.add("111111");
         cargo.add("222222");
         cargo.add("333333");
 
-        List<Truck> trucks = uniformLoadingProcessor.loadCargosIntoTrucks(cargo, null);
+        List<Truck> trucks = uniformLoadingProcessor.loadParcelsIntoTrucks(cargo, null);
 
         assertThat(trucks).isNotEmpty();
     }
 
     @Test
-    public void loadCargosIntoTrucks_WithNumberOfTrucksProvided_ReturnsListOfSizeNumberOfTrucks() {
+    public void loadParcelsIntoTrucks_WithNumberOfTrucksProvided_ReturnsListOfSizeNumberOfTrucks() {
         UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
                 new TruckFactory(),
-                new ParcelRowsGenerator());
+                new ParcelRowsGenerator(),
+                new NumberOfTrucksCalculator());
 
         List<String> cargo = new ArrayList<>();
         cargo.add("111111");
@@ -43,7 +46,7 @@ public class UniformLoadingProcessorTest {
         cargo.add("333333");
         int numberOfTrucks = 2;
 
-        List<Truck> trucks = uniformLoadingProcessor.loadCargosIntoTrucks(cargo, numberOfTrucks);
+        List<Truck> trucks = uniformLoadingProcessor.loadParcelsIntoTrucks(cargo, numberOfTrucks);
 
         assertThat(trucks).hasSize(numberOfTrucks);
     }
@@ -55,7 +58,7 @@ public class UniformLoadingProcessorTest {
         cargo.add("222222");
         cargo.add("333333");
 
-        int numberOfTrucks = UniformLoadingProcessor.calculateNumberOfTrucks(cargo);
+        int numberOfTrucks = new NumberOfTrucksCalculator().calculateNumberOfTrucks(cargo);
 
         assertThat(numberOfTrucks).isGreaterThan(0);
     }
@@ -68,7 +71,11 @@ public class UniformLoadingProcessorTest {
         rows.add("333555");
         int numberOfTrucks = 2;
 
-        Map<Integer, List<String>> parcelsByTruck = UniformLoadingProcessor.distributeParcelsByTruck(rows, numberOfTrucks);
+        Map<Integer, List<String>> parcelsByTruck = new UniformLoadingProcessor(
+                new TruckFactory(),
+                new ParcelRowsGenerator(),
+                new NumberOfTrucksCalculator())
+                .distributeParcelsByTruck(rows, numberOfTrucks);
 
         assertThat(parcelsByTruck).hasSize(numberOfTrucks);
     }
@@ -77,9 +84,11 @@ public class UniformLoadingProcessorTest {
     public void createTrucksByConcatenatedStringCarcases_ReturnsListOfSizeOne() {
         TruckFactory truckFactory = Mockito.mock(TruckFactory.class);
         ParcelRowsGenerator rowsGenerator = Mockito.mock(ParcelRowsGenerator.class);
+        NumberOfTrucksCalculator numberOfTrucksCalculator = Mockito.mock(NumberOfTrucksCalculator.class);
         UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
                 truckFactory,
-                rowsGenerator);
+                rowsGenerator,
+                numberOfTrucksCalculator);
 
         Map<Integer, List<String>> concatenatedCarcases = new HashMap<>();
         concatenatedCarcases.put(0, new ArrayList<>());
@@ -95,9 +104,11 @@ public class UniformLoadingProcessorTest {
     public void createTrucksByConcatenatedStringCarcases_MultipleTrucks_ReturnsListOfSizeTwo() {
         TruckFactory truckFactory = Mockito.mock(TruckFactory.class);
         ParcelRowsGenerator rowsGenerator = Mockito.mock(ParcelRowsGenerator.class);
+        NumberOfTrucksCalculator numberOfTrucksCalculator = Mockito.mock(NumberOfTrucksCalculator.class);
         UniformLoadingProcessor uniformLoadingProcessor = new UniformLoadingProcessor(
                 truckFactory,
-                rowsGenerator);
+                rowsGenerator,
+                numberOfTrucksCalculator);
 
         Map<Integer, List<String>> concatenatedCarcases = new HashMap<>();
         concatenatedCarcases.put(0, new ArrayList<>());
