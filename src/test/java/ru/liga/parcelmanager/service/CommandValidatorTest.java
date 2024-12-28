@@ -1,6 +1,8 @@
 package ru.liga.parcelmanager.service;
 
 import org.junit.jupiter.api.Test;
+import ru.liga.parcelmanager.exceptions.InvalidJsonException;
+import ru.liga.parcelmanager.exceptions.InvalidTxtException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -23,8 +25,8 @@ class CommandValidatorTest {
         CommandValidationService validator = new CommandValidationService();
 
         assertThatThrownBy(() -> validator.validateLoadTruckCommandAndGetFilePath(command))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Invalid txt file: path/to/file.pdf");
+                .isInstanceOf(InvalidTxtException.class)
+                .hasMessage("path/to/file.pdf");
     }
 
     @Test
@@ -43,7 +45,7 @@ class CommandValidatorTest {
         CommandValidationService validator = new CommandValidationService();
 
         assertThatThrownBy(() -> validator.validateUnloadTruckCommandAndGetFilePath(command))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Invalid json file: path/to/file.xml");
+                .isInstanceOf(InvalidJsonException.class)
+                .hasMessage("path/to/file.xml");
     }
 }

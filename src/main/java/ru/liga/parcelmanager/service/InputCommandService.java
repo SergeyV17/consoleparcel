@@ -31,7 +31,7 @@ public class InputCommandService {
 
     private final TxtParser txtParser;
     private final JsonParser jsonParser;
-    private final ParcelLoadingService parcelLoadingService;
+    private final LoadingProcessorService loadingProcessorService;
     private final TruckUnloadingService truckUnloadingService;
 
     public List<Truck> loadTrucksCommand(String command, LoadingMode mode, Integer numberOfTrucks) {
@@ -40,7 +40,7 @@ public class InputCommandService {
         log.info("Start loading parcels into trucks...");
         List<String> parcels = txtParser.parseParcelsFromFile(filePath);
 
-        List<Truck> trucks = parcelLoadingService.loadParcelsIntoTrucks(parcels, mode, numberOfTrucks);
+        List<Truck> trucks = loadingProcessorService.loadTrucks(parcels, mode, numberOfTrucks);
         log.info("Loading parcels into trucks completed");
 
         return trucks;

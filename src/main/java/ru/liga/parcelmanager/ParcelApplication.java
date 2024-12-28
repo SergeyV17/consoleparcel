@@ -12,7 +12,6 @@ import ru.liga.parcelmanager.processor.impl.UniformLoadingProcessor;
 import ru.liga.parcelmanager.processor.impl.shared.ParcelRowsGenerator;
 import ru.liga.parcelmanager.processor.impl.JsonOutputProcessor;
 import ru.liga.parcelmanager.processor.impl.TxtOutputProcessor;
-import ru.liga.parcelmanager.service.ParcelLoadingService;
 import ru.liga.parcelmanager.processor.impl.ConsoleOutputProcessor;
 import ru.liga.parcelmanager.service.TruckUnloadingService;
 import ru.liga.parcelmanager.util.JsonParser;
@@ -45,7 +44,7 @@ public class ParcelApplication {
                         new CommandValidationService(),
                         new TxtParser(new TxtReader(), new FileValidationService()),
                         new JsonParser(),
-                        new ParcelLoadingService(loadingProcessorService),
+                        loadingProcessorService,
                         new TruckUnloadingService()),
                 new OutputService(
                         new ConsoleOutputProcessor(),

@@ -2,6 +2,7 @@ package ru.liga.parcelmanager.service;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import ru.liga.parcelmanager.exceptions.InvalidTxtException;
 import ru.liga.parcelmanager.model.enums.LoadingMode;
 import ru.liga.parcelmanager.util.JsonParser;
 import ru.liga.parcelmanager.util.TxtParser;
@@ -18,7 +19,7 @@ public class CommandManagerTest {
     public void testLoadTrucksCommand_validCommand_parsesCargoFromFile() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
-        ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
+        LoadingProcessorService parcelLoadingService = Mockito.mock(LoadingProcessorService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
         InputCommandService inputCommandService = new InputCommandService(
                 new CommandValidationService(),
@@ -37,7 +38,7 @@ public class CommandManagerTest {
     public void testLoadTrucksCommand_invalidCommand_throwsIllegalArgumentException() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
-        ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
+        LoadingProcessorService parcelLoadingService = Mockito.mock(LoadingProcessorService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
         InputCommandService inputCommandService = new InputCommandService(
                 new CommandValidationService(),
@@ -48,7 +49,7 @@ public class CommandManagerTest {
         String command = "invalid command";
 
         assertThatThrownBy(() -> inputCommandService.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidTxtException.class)
                 .hasMessageContaining("invalid command");
     }
 
@@ -56,7 +57,7 @@ public class CommandManagerTest {
     public void testSelectModeCommand_validCommand_returnsLoadingMode() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
-        ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
+        LoadingProcessorService parcelLoadingService = Mockito.mock(LoadingProcessorService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
         InputCommandService inputCommandService = new InputCommandService(
                 new CommandValidationService(),
@@ -75,7 +76,7 @@ public class CommandManagerTest {
     public void testSelectModeCommand_invalidCommand_throwsIllegalStateException() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
-        ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
+        LoadingProcessorService parcelLoadingService = Mockito.mock(LoadingProcessorService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
         InputCommandService inputCommandService = new InputCommandService(
                 new CommandValidationService(),
