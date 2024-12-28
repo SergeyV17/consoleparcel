@@ -11,6 +11,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FullCapacityLoadingProcessorTest {
+
     @Test
     public void testLoadCargosIntoTrucks_EmptyList_ReturnsEmptyList() {
         FullCapacityLoadingProcessor processor = new FullCapacityLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator());

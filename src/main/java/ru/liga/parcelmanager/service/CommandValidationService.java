@@ -1,9 +1,9 @@
-package ru.liga.parcelmanager.validation;
+package ru.liga.parcelmanager.service;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CommandValidator {
+public class CommandValidationService {
 
     public static final int FIRST_MATCHER_GROUP_NUMBER = 1;
     private final Pattern TXT_FILE_PATTERN = Pattern.compile("(.+\\.txt)");

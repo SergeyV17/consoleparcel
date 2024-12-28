@@ -2,7 +2,7 @@ package ru.liga.parcelmanager.util;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.liga.parcelmanager.validation.FileValidator;
+import ru.liga.parcelmanager.service.FileValidationService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +13,7 @@ public class TxtParser {
 
     private final TxtReader txtReader;
 
-    private final FileValidator fileValidator;
+    private final FileValidationService fileValidator;
 
     public List<String> parseCargoFromFile(String filePath) {
         List<String> fileLines = txtReader.readAllLines(filePath)

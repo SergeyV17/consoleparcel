@@ -2,13 +2,13 @@ package ru.liga.parcelmanager.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
-import ru.liga.parcelmanager.manager.FeatureManager;
+import ru.liga.parcelmanager.service.FeatureService;
 
 @Slf4j
 @RequiredArgsConstructor
 public class ConsoleController {
 
-    private final FeatureManager featureManager;
+    private final FeatureService featureManager;
 
     public void start() {
         log.info(

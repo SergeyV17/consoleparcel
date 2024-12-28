@@ -1,4 +1,4 @@
-package ru.liga.parcelmanager.manager;
+package ru.liga.parcelmanager.service;
 
 import lombok.RequiredArgsConstructor;
 import ru.liga.parcelmanager.model.entity.Truck;
@@ -7,18 +7,17 @@ import ru.liga.parcelmanager.processor.loading.FullCapacityLoadingProcessor;
 import ru.liga.parcelmanager.processor.loading.LoadingProcessor;
 import ru.liga.parcelmanager.processor.loading.OneByOneLoadingProcessor;
 import ru.liga.parcelmanager.processor.loading.UniformLoadingProcessor;
-import ru.liga.parcelmanager.validation.NumberOfTrucksValidator;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-public class LoadingProcessorManager {
+public class LoadingProcessorService {
 
     private final OneByOneLoadingProcessor oneByOneLoadingProcessor;
     private final FullCapacityLoadingProcessor fullCapacityLoadingProcessor;
     private final UniformLoadingProcessor uniformLoadingProcessor;
 
-    private final NumberOfTrucksValidator numberOfTrucksValidator;
+    private final NumberOfTrucksValidationService numberOfTrucksValidator;
 
     public List<Truck> loadTrucks(List<String> parcels, LoadingMode mode, Integer numberOfTrucks) {
         if (numberOfTrucks != null) {

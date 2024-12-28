@@ -1,4 +1,4 @@
-package ru.liga.parcelmanager.manager;
+package ru.liga.parcelmanager.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,12 +6,8 @@ import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.model.enums.LoadingMode;
 import ru.liga.parcelmanager.model.enums.OutputType;
 import ru.liga.parcelmanager.model.enums.ProgramMode;
-import ru.liga.parcelmanager.service.OutputService;
-import ru.liga.parcelmanager.service.ParcelLoadingService;
-import ru.liga.parcelmanager.service.TruckUnloadingService;
 import ru.liga.parcelmanager.util.JsonParser;
 import ru.liga.parcelmanager.util.TxtParser;
-import ru.liga.parcelmanager.validation.CommandValidator;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -19,12 +15,12 @@ import java.util.regex.Pattern;
 
 @Slf4j
 @RequiredArgsConstructor
-public class CommandManager {
+public class InputCommandService {
 
     public static final String NUMBER_OF_TRUCKS_NOT_REQUIRED = "N";
     private final Pattern NUMBER_OF_TRUCKS_PATTERN = Pattern.compile("\\d+");
 
-    private final CommandValidator commandValidator;
+    private final CommandValidationService commandValidator;
 
     private final TxtParser txtParser;
     private final JsonParser jsonParser;
@@ -41,7 +37,7 @@ public class CommandManager {
         List<Truck> parcelsWithinTrucks = parcelLoadingService.loadParcelsIntoTrucks(parcels, mode, numberOfTrucks);
 
         log.info("Sending trucks to output...");
-        outputService.SendTrucksToOutput(parcelsWithinTrucks, outputType);
+        outputService.sendTrucksToOutput(parcelsWithinTrucks, outputType);
 
         log.info("Loading parcels into trucks completed");
     }
@@ -54,7 +50,7 @@ public class CommandManager {
         List<String> parcels = truckUnloadingService.unloadParcelsFromTrucks(trucks);
 
         log.info("Sending parcels to output...");
-        outputService.SendParcelsToOutput(parcels);
+        outputService.sendParcelsToOutput(parcels);
 
         log.info("Unload trucks into parcels completed");
     }

@@ -1,4 +1,4 @@
-package ru.liga.parcelmanager.validation;
+package ru.liga.parcelmanager.service;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.liga.parcelmanager.model.entity.Truck;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 @Slf4j
-public class FileValidator {
+public class FileValidationService {
 
     public static final String DELIMITER = "\r\n";
     private final Pattern FILE_LINE_PATTERN = Pattern.compile("^(\\d)\\1*$");

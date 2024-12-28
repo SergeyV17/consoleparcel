@@ -1,6 +1,7 @@
 package ru.liga.parcelmanager.validation;
 
 import org.junit.jupiter.api.Test;
+import ru.liga.parcelmanager.service.NumberOfTrucksValidationService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,9 +12,10 @@ import static ru.liga.parcelmanager.model.enums.LoadingMode.ONE_BY_ONE;
 import static ru.liga.parcelmanager.model.enums.LoadingMode.UNIFORM;
 
 class NumberOfTrucksValidatorTest {
+
     @Test
     public void testLoadingToCapacity_InsufficientTrucks_ThrowsException() {
-        NumberOfTrucksValidator validator = new NumberOfTrucksValidator();
+        NumberOfTrucksValidationService validator = new NumberOfTrucksValidationService();
         int numberOfTrucks = 1;
         List<String> parcels = Arrays.asList("111111", "111111", "111111", "111111", "111111", "111111", "111111", "111111");
         assertThatCode(() -> validator.validate(numberOfTrucks, parcels, LOADING_TO_CAPACITY))
@@ -23,7 +25,7 @@ class NumberOfTrucksValidatorTest {
 
     @Test
     public void testLoadingToCapacity_SufficientTrucks_NoException() {
-        NumberOfTrucksValidator validator = new NumberOfTrucksValidator();
+        NumberOfTrucksValidationService validator = new NumberOfTrucksValidationService();
         int numberOfTrucks = 2;
         List<String> parcels = Arrays.asList("1", "2", "3");
         assertThatCode(() -> validator.validate(numberOfTrucks, parcels, LOADING_TO_CAPACITY))
@@ -32,7 +34,7 @@ class NumberOfTrucksValidatorTest {
 
     @Test
     public void testOneByOne_IncorrectNumberOfTrucks_ThrowsException() {
-        NumberOfTrucksValidator validator = new NumberOfTrucksValidator();
+        NumberOfTrucksValidationService validator = new NumberOfTrucksValidationService();
         int numberOfTrucks = 2;
         List<String> parcels = Arrays.asList("1", "2", "3");
         assertThatCode(() -> validator.validate(numberOfTrucks, parcels, ONE_BY_ONE))
@@ -42,7 +44,7 @@ class NumberOfTrucksValidatorTest {
 
     @Test
     public void testOneByOne_CorrectNumberOfTrucks_NoException() {
-        NumberOfTrucksValidator validator = new NumberOfTrucksValidator();
+        NumberOfTrucksValidationService validator = new NumberOfTrucksValidationService();
         int numberOfTrucks = 3;
         List<String> parcels = Arrays.asList("1", "2", "3");
         assertThatCode(() -> validator.validate(numberOfTrucks, parcels, ONE_BY_ONE))
@@ -51,7 +53,7 @@ class NumberOfTrucksValidatorTest {
 
     @Test
     public void testUniform_InsufficientTrucks_ThrowsException() {
-        NumberOfTrucksValidator validator = new NumberOfTrucksValidator();
+        NumberOfTrucksValidationService validator = new NumberOfTrucksValidationService();
         int numberOfTrucks = 1;
         List<String> parcels = Arrays.asList("111111", "111111", "111111", "111111", "111111", "111111", "111111");
         assertThatCode(() -> validator.validate(numberOfTrucks, parcels, UNIFORM))
@@ -61,7 +63,7 @@ class NumberOfTrucksValidatorTest {
 
     @Test
     public void testUniform_SufficientTrucks_NoException() {
-        NumberOfTrucksValidator validator = new NumberOfTrucksValidator();
+        NumberOfTrucksValidationService validator = new NumberOfTrucksValidationService();
         int numberOfTrucks = 2;
         List<String> parcels = Arrays.asList("1", "2", "3");
         assertThatCode(() -> validator.validate(numberOfTrucks, parcels, UNIFORM))

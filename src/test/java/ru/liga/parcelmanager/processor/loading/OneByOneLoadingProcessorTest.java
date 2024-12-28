@@ -10,6 +10,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class OneByOneLoadingProcessorTest {
+
     @Test
     public void testLoadCargosIntoTrucks_EmptyList_ReturnsEmptyList() {
         OneByOneLoadingProcessor processor = new OneByOneLoadingProcessor(new TruckFactory());

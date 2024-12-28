@@ -2,10 +2,10 @@ package ru.liga.parcelmanager;
 
 import ru.liga.parcelmanager.controller.ConsoleController;
 import ru.liga.parcelmanager.factory.TruckFactory;
-import ru.liga.parcelmanager.manager.CommandManager;
-import ru.liga.parcelmanager.manager.FeatureManager;
-import ru.liga.parcelmanager.manager.LoadingProcessorManager;
-import ru.liga.parcelmanager.manager.OutputProcessorManager;
+import ru.liga.parcelmanager.service.InputCommandService;
+import ru.liga.parcelmanager.service.FeatureService;
+import ru.liga.parcelmanager.service.LoadingProcessorService;
+import ru.liga.parcelmanager.service.OutputProcessorService;
 import ru.liga.parcelmanager.processor.loading.FullCapacityLoadingProcessor;
 import ru.liga.parcelmanager.processor.loading.OneByOneLoadingProcessor;
 import ru.liga.parcelmanager.processor.loading.UniformLoadingProcessor;
@@ -19,9 +19,9 @@ import ru.liga.parcelmanager.service.TruckUnloadingService;
 import ru.liga.parcelmanager.util.JsonParser;
 import ru.liga.parcelmanager.util.TxtParser;
 import ru.liga.parcelmanager.util.TxtReader;
-import ru.liga.parcelmanager.validation.CommandValidator;
-import ru.liga.parcelmanager.validation.FileValidator;
-import ru.liga.parcelmanager.validation.NumberOfTrucksValidator;
+import ru.liga.parcelmanager.service.CommandValidationService;
+import ru.liga.parcelmanager.service.FileValidationService;
+import ru.liga.parcelmanager.service.NumberOfTrucksValidationService;
 
 import java.util.Scanner;
 
@@ -33,25 +33,25 @@ public class ParcelApplication {
     }
 
     private static ConsoleController createConsoleController() {
-        LoadingProcessorManager loadingProcessorManager = new LoadingProcessorManager(
+        LoadingProcessorService loadingProcessorManager = new LoadingProcessorService(
                 new OneByOneLoadingProcessor(new TruckFactory()),
                 new FullCapacityLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator()),
                 new UniformLoadingProcessor(new TruckFactory(), new ParcelRowsGenerator()),
-                new NumberOfTrucksValidator()
+                new NumberOfTrucksValidationService()
         );
 
-        OutputProcessorManager outputProcessorManager = new OutputProcessorManager(
+        OutputProcessorService outputProcessorManager = new OutputProcessorService(
                 new ConsoleOutputProcessor(),
                 new JsonOutputProcessor(),
                 new TxtOutputProcessor()
         );
 
         return new ConsoleController(
-                new FeatureManager(
+                new FeatureService(
                         new Scanner(System.in),
-                        new CommandManager(
-                                new CommandValidator(),
-                                new TxtParser(new TxtReader(), new FileValidator()),
+                        new InputCommandService(
+                                new CommandValidationService(),
+                                new TxtParser(new TxtReader(), new FileValidationService()),
                                 new JsonParser(),
                                 new ParcelLoadingService(loadingProcessorManager),
                                 new TruckUnloadingService(),

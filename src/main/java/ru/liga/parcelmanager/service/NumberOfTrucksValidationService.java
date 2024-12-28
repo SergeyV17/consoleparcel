@@ -1,4 +1,4 @@
-package ru.liga.parcelmanager.validation;
+package ru.liga.parcelmanager.service;
 
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.model.enums.LoadingMode;
@@ -6,7 +6,7 @@ import ru.liga.parcelmanager.processor.loading.UniformLoadingProcessor;
 
 import java.util.List;
 
-public class NumberOfTrucksValidator {
+public class NumberOfTrucksValidationService {
 
     public static final int Seed = 0;
 

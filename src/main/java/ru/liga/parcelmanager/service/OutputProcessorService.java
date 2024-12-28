@@ -1,4 +1,4 @@
-package ru.liga.parcelmanager.manager;
+package ru.liga.parcelmanager.service;
 
 import lombok.RequiredArgsConstructor;
 import ru.liga.parcelmanager.model.entity.Truck;
@@ -11,18 +11,18 @@ import ru.liga.parcelmanager.processor.output.TxtOutputProcessor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class OutputProcessorManager {
+public class OutputProcessorService {
 
     private final ConsoleOutputProcessor consoleOutputProcessor;
     private final JsonOutputProcessor jsonOutputProcessor;
     private final TxtOutputProcessor txtOutputProcessor;
 
-    public void SendTrucksToOutput(List<Truck> trucks, OutputType outputType) {
+    public void sendTrucksToOutput(List<Truck> trucks, OutputType outputType) {
         OutputProcessor outputProcessor = getOutputServiceByOutputType(outputType);
         outputProcessor.writeTrucks(trucks);
     }
 
-    public void SendParcelsToOutput(List<String> parcels, OutputType outputType) {
+    public void sendParcelsToOutput(List<String> parcels, OutputType outputType) {
         OutputProcessor outputProcessor = getOutputServiceByOutputType(outputType);
         outputProcessor.writeParcels(parcels);
     }

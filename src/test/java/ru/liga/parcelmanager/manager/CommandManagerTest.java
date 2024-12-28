@@ -4,12 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.liga.parcelmanager.model.enums.LoadingMode;
 import ru.liga.parcelmanager.model.enums.OutputType;
+import ru.liga.parcelmanager.service.InputCommandService;
 import ru.liga.parcelmanager.service.OutputService;
 import ru.liga.parcelmanager.service.ParcelLoadingService;
 import ru.liga.parcelmanager.service.TruckUnloadingService;
 import ru.liga.parcelmanager.util.JsonParser;
 import ru.liga.parcelmanager.util.TxtParser;
-import ru.liga.parcelmanager.validation.CommandValidator;
+import ru.liga.parcelmanager.service.CommandValidationService;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 public class CommandManagerTest {
+
     @Test
     public void testImportCommand_validCommand_parsesCargoFromFile() {
         TxtParser txtParser = Mockito.mock(TxtParser.class);
@@ -25,8 +27,8 @@ public class CommandManagerTest {
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
         OutputService outputService = Mockito.mock(OutputService.class);
-        CommandManager commandManager = new CommandManager(
-                new CommandValidator(),
+        InputCommandService inputCommandService = new InputCommandService(
+                new CommandValidationService(),
                 txtParser,
                 jsonParser,
                 parcelLoadingService,
@@ -36,7 +38,7 @@ public class CommandManagerTest {
         List<String> parcels = List.of("parcel1", "parcel2");
         Mockito.when(txtParser.parseCargoFromFile(Mockito.any())).thenReturn(parcels);
 
-        assertThatCode(() -> commandManager.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null, OutputType.CONSOLE)).doesNotThrowAnyException();
+        assertThatCode(() -> inputCommandService.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null, OutputType.CONSOLE)).doesNotThrowAnyException();
     }
 
     @Test
@@ -46,8 +48,8 @@ public class CommandManagerTest {
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
         OutputService outputService = Mockito.mock(OutputService.class);
-        CommandManager commandManager = new CommandManager(
-                new CommandValidator(),
+        InputCommandService inputCommandService = new InputCommandService(
+                new CommandValidationService(),
                 txtParser,
                 jsonParser,
                 parcelLoadingService,
@@ -55,7 +57,7 @@ public class CommandManagerTest {
                 outputService);
         String command = "invalid command";
 
-        assertThatThrownBy(() -> commandManager.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null, OutputType.CONSOLE))
+        assertThatThrownBy(() -> inputCommandService.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null, OutputType.CONSOLE))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("invalid command");
     }
@@ -67,8 +69,8 @@ public class CommandManagerTest {
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
         OutputService outputService = Mockito.mock(OutputService.class);
-        CommandManager commandManager = new CommandManager(
-                new CommandValidator(),
+        InputCommandService inputCommandService = new InputCommandService(
+                new CommandValidationService(),
                 txtParser,
                 jsonParser,
                 parcelLoadingService,
@@ -77,7 +79,7 @@ public class CommandManagerTest {
         String command = "path/to/file.txt";
         Mockito.when(txtParser.parseCargoFromFile(Mockito.any())).thenReturn(List.of());
 
-        assertThatThrownBy(() -> commandManager.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null, OutputType.CONSOLE))
+        assertThatThrownBy(() -> inputCommandService.loadTrucksCommand(command, LoadingMode.ONE_BY_ONE, null, OutputType.CONSOLE))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Parcels not found in path/to/file.txt");
     }
@@ -89,8 +91,8 @@ public class CommandManagerTest {
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
         OutputService outputService = Mockito.mock(OutputService.class);
-        CommandManager commandManager = new CommandManager(
-                new CommandValidator(),
+        InputCommandService inputCommandService = new InputCommandService(
+                new CommandValidationService(),
                 txtParser,
                 jsonParser,
                 parcelLoadingService,
@@ -98,7 +100,7 @@ public class CommandManagerTest {
                 outputService);
         String command = "loading to capacity";
 
-        LoadingMode mode = commandManager.selectLoadingModeCommand(command);
+        LoadingMode mode = inputCommandService.selectLoadingModeCommand(command);
 
         assertThat(mode).isEqualTo(LoadingMode.LOADING_TO_CAPACITY);
     }
@@ -110,8 +112,8 @@ public class CommandManagerTest {
         ParcelLoadingService parcelLoadingService = Mockito.mock(ParcelLoadingService.class);
         TruckUnloadingService truckUnloadingService = Mockito.mock(TruckUnloadingService.class);
         OutputService outputService = Mockito.mock(OutputService.class);
-        CommandManager commandManager = new CommandManager(
-                new CommandValidator(),
+        InputCommandService inputCommandService = new InputCommandService(
+                new CommandValidationService(),
                 txtParser,
                 jsonParser,
                 parcelLoadingService,
@@ -119,7 +121,7 @@ public class CommandManagerTest {
                 outputService);
         String command = "invalid command";
 
-        assertThatThrownBy(() -> commandManager.selectLoadingModeCommand(command))
+        assertThatThrownBy(() -> inputCommandService.selectLoadingModeCommand(command))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("invalid command");
     }
