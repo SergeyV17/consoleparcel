@@ -108,4 +108,9 @@ public class InputCommandService {
     public boolean isSelectProgramModeCommand(String command) {
         return command.equals(InputCommandService.LOADING_TRUCKS_COMMAND) || command.equals(InputCommandService.UNLOADING_TRUCKS_COMMAND);
     }
+
+    // TODO добавить ресурс с начальным текстом и считывать из него
+    public boolean isStartCommand(String command) {
+        return command.equals("start");
+    }
 }

@@ -1,4 +1,4 @@
-package ru.liga.parcelmanager.processor.impl.shared;
+package ru.liga.parcelmanager.processor.impl.loading.shared;
 
 import ru.liga.parcelmanager.model.entity.Truck;
 

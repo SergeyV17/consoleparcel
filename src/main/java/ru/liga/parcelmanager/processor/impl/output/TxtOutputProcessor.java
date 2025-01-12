@@ -1,4 +1,4 @@
-package ru.liga.parcelmanager.processor.impl;
+package ru.liga.parcelmanager.processor.impl.output;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.liga.parcelmanager.model.Output;

@@ -2,7 +2,7 @@ package ru.liga.parcelmanager.service;
 
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.model.enums.LoadingMode;
-import ru.liga.parcelmanager.processor.impl.shared.NumberOfTrucksCalculator;
+import ru.liga.parcelmanager.processor.impl.loading.shared.NumberOfTrucksCalculator;
 
 import java.util.List;
 

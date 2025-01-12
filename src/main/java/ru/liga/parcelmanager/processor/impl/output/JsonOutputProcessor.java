@@ -1,4 +1,4 @@
-package ru.liga.parcelmanager.processor.impl;
+package ru.liga.parcelmanager.processor.impl.output;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

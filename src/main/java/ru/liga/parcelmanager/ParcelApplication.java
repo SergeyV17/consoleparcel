@@ -1,18 +1,19 @@
 package ru.liga.parcelmanager;
 
 import ru.liga.parcelmanager.controller.ConsoleController;
+import ru.liga.parcelmanager.controller.TelegramController;
 import ru.liga.parcelmanager.factory.TruckFactory;
-import ru.liga.parcelmanager.processor.impl.shared.NumberOfTrucksCalculator;
+import ru.liga.parcelmanager.processor.impl.loading.shared.NumberOfTrucksCalculator;
 import ru.liga.parcelmanager.service.InputCommandService;
 import ru.liga.parcelmanager.service.LoadingProcessorService;
 import ru.liga.parcelmanager.service.OutputService;
-import ru.liga.parcelmanager.processor.impl.FullCapacityLoadingProcessor;
-import ru.liga.parcelmanager.processor.impl.OneByOneLoadingProcessor;
-import ru.liga.parcelmanager.processor.impl.UniformLoadingProcessor;
-import ru.liga.parcelmanager.processor.impl.shared.ParcelRowsGenerator;
-import ru.liga.parcelmanager.processor.impl.JsonOutputProcessor;
-import ru.liga.parcelmanager.processor.impl.TxtOutputProcessor;
-import ru.liga.parcelmanager.processor.impl.ConsoleOutputProcessor;
+import ru.liga.parcelmanager.processor.impl.loading.FullCapacityLoadingProcessor;
+import ru.liga.parcelmanager.processor.impl.loading.OneByOneLoadingProcessor;
+import ru.liga.parcelmanager.processor.impl.loading.UniformLoadingProcessor;
+import ru.liga.parcelmanager.processor.impl.loading.shared.ParcelRowsGenerator;
+import ru.liga.parcelmanager.processor.impl.output.JsonOutputProcessor;
+import ru.liga.parcelmanager.processor.impl.output.TxtOutputProcessor;
+import ru.liga.parcelmanager.processor.impl.output.ConsoleOutputProcessor;
 import ru.liga.parcelmanager.service.TruckUnloadingService;
 import ru.liga.parcelmanager.util.JsonParser;
 import ru.liga.parcelmanager.util.TxtParser;
@@ -26,8 +27,13 @@ import java.util.Scanner;
 public class ParcelApplication {
 
     public static void main(String[] args) {
-        var consoleController = createConsoleController();
-        consoleController.start();
+
+        // TODO SERGEY VLASENKO перенести в конфиг
+        var telegramController = new TelegramController("7928876755:AAFRE-kU_dqFmjbH6g603rqNFjIsiD6eYK8");
+
+        // TODO SERGEY VLASENKO старая реализация через консоль, если что выпилить
+//        var consoleController = createConsoleController();
+//        consoleController.start();
     }
 
     private static ConsoleController createConsoleController() {

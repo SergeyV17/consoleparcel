@@ -1,12 +1,11 @@
-package ru.liga.parcelmanager.processor.impl;
+package ru.liga.parcelmanager.processor.impl.loading;
 
 import lombok.RequiredArgsConstructor;
 import ru.liga.parcelmanager.factory.TruckFactory;
-import ru.liga.parcelmanager.model.entity.Cargo;
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.processor.LoadingProcessor;
-import ru.liga.parcelmanager.processor.impl.shared.NumberOfTrucksCalculator;
-import ru.liga.parcelmanager.processor.impl.shared.ParcelRowsGenerator;
+import ru.liga.parcelmanager.processor.impl.loading.shared.NumberOfTrucksCalculator;
+import ru.liga.parcelmanager.processor.impl.loading.shared.ParcelRowsGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;

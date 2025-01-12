@@ -3,10 +3,10 @@ package ru.liga.parcelmanager.service;
 import lombok.RequiredArgsConstructor;
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.model.enums.LoadingMode;
-import ru.liga.parcelmanager.processor.impl.FullCapacityLoadingProcessor;
+import ru.liga.parcelmanager.processor.impl.loading.FullCapacityLoadingProcessor;
 import ru.liga.parcelmanager.processor.LoadingProcessor;
-import ru.liga.parcelmanager.processor.impl.OneByOneLoadingProcessor;
-import ru.liga.parcelmanager.processor.impl.UniformLoadingProcessor;
+import ru.liga.parcelmanager.processor.impl.loading.OneByOneLoadingProcessor;
+import ru.liga.parcelmanager.processor.impl.loading.UniformLoadingProcessor;
 
 import java.util.List;
 

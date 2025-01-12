@@ -3,6 +3,7 @@ package ru.liga.parcelmanager.processor.impl;
 import org.junit.jupiter.api.Test;
 import ru.liga.parcelmanager.factory.TruckFactory;
 import ru.liga.parcelmanager.model.entity.Truck;
+import ru.liga.parcelmanager.processor.impl.loading.OneByOneLoadingProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
