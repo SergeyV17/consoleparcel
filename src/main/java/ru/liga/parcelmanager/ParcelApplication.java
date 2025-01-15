@@ -1,61 +1,39 @@
 package ru.liga.parcelmanager;
 
-import ru.liga.parcelmanager.controller.ConsoleController;
-import ru.liga.parcelmanager.controller.TelegramController;
-import ru.liga.parcelmanager.factory.TruckFactory;
-import ru.liga.parcelmanager.processor.impl.loading.shared.NumberOfTrucksCalculator;
-import ru.liga.parcelmanager.service.InputCommandService;
-import ru.liga.parcelmanager.service.LoadingProcessorService;
-import ru.liga.parcelmanager.service.OutputService;
-import ru.liga.parcelmanager.processor.impl.loading.FullCapacityLoadingProcessor;
-import ru.liga.parcelmanager.processor.impl.loading.OneByOneLoadingProcessor;
-import ru.liga.parcelmanager.processor.impl.loading.UniformLoadingProcessor;
-import ru.liga.parcelmanager.processor.impl.loading.shared.ParcelRowsGenerator;
-import ru.liga.parcelmanager.processor.impl.output.JsonOutputProcessor;
-import ru.liga.parcelmanager.processor.impl.output.TxtOutputProcessor;
-import ru.liga.parcelmanager.processor.impl.output.ConsoleOutputProcessor;
-import ru.liga.parcelmanager.service.TruckUnloadingService;
-import ru.liga.parcelmanager.util.JsonParser;
-import ru.liga.parcelmanager.util.TxtParser;
-import ru.liga.parcelmanager.util.TxtReader;
-import ru.liga.parcelmanager.service.CommandValidationService;
-import ru.liga.parcelmanager.service.FileValidationService;
-import ru.liga.parcelmanager.service.TruckValidationService;
+import ru.liga.parcelmanager.command.*;
+import ru.liga.parcelmanager.command.consts.CommandNames;
+import ru.liga.parcelmanager.controller.ParcelController;
+import ru.liga.parcelmanager.factory.ParcelFactory;
+import ru.liga.parcelmanager.processor.impl.input.ConsoleInputProcessor;
+import ru.liga.parcelmanager.processor.impl.input.TelegramInputProcessor;
+import ru.liga.parcelmanager.repository.ParcelRepository;
+import ru.liga.parcelmanager.service.ParcelService;
+import ru.liga.parcelmanager.validation.ParcelValidator;
 
-import java.util.Scanner;
+import java.util.ArrayList;
 
 public class ParcelApplication {
 
     public static void main(String[] args) {
+        // TODO добавить посылки по умолчанию
+        ParcelRepository parcelRepository = new ParcelRepository(new ArrayList<>());
 
-        // TODO SERGEY VLASENKO перенести в конфиг
-        var telegramController = new TelegramController("7928876755:AAFRE-kU_dqFmjbH6g603rqNFjIsiD6eYK8");
+        CommandRegistry commandRegistry = new CommandRegistry();
+        commandRegistry.registerCommand(CommandNames.CREATE_COMMAND, new CreateCommand(
+                new ParcelService(parcelRepository), new ParcelFactory(), new ParcelValidator()));
+        commandRegistry.registerCommand(CommandNames.EDIT_COMMAND, new EditCommand());
+        commandRegistry.registerCommand(CommandNames.FIND_COMMAND, new FindCommand());
+        commandRegistry.registerCommand(CommandNames.LOAD_COMMAND, new LoadCommand());
+        commandRegistry.registerCommand(CommandNames.DELETE_COMMAND, new DeleteCommand());
+        commandRegistry.registerCommand(CommandNames.UNLOAD_COMMAND, new UnloadCommand());
+        commandRegistry.registerCommand(CommandNames.EXIT_COMMAND, new ExitCommand());
 
-        // TODO SERGEY VLASENKO старая реализация через консоль, если что выпилить
-//        var consoleController = createConsoleController();
-//        consoleController.start();
-    }
+        CommandInvoker commandInvoker = new CommandInvoker(commandRegistry);
 
-    private static ConsoleController createConsoleController() {
-        LoadingProcessorService loadingProcessorService = new LoadingProcessorService(
-                new OneByOneLoadingProcessor(new TruckFactory()),
-                new FullCapacityLoadingProcessor(new ParcelRowsGenerator(), new TruckFactory()),
-                new UniformLoadingProcessor(new ParcelRowsGenerator(), new NumberOfTrucksCalculator(), new TruckFactory()),
-                new TruckValidationService()
-        );
+        ParcelController parcelController = new ParcelController(
+                new ConsoleInputProcessor(commandInvoker),
+                new TelegramInputProcessor(commandInvoker));
 
-        return new ConsoleController(
-                new Scanner(System.in),
-                new InputCommandService(
-                        new CommandValidationService(),
-                        new TxtParser(new TxtReader(), new FileValidationService()),
-                        new JsonParser(),
-                        loadingProcessorService,
-                        new TruckUnloadingService()),
-                new OutputService(
-                        new ConsoleOutputProcessor(),
-                        new JsonOutputProcessor(),
-                        new TxtOutputProcessor()
-                ));
+        parcelController.startListening();
     }
 }

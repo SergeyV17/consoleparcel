@@ -2,20 +2,25 @@ package ru.liga.parcelmanager.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ru.liga.parcelmanager.command.Command;
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.model.enums.LoadingMode;
 import ru.liga.parcelmanager.model.enums.OutputType;
 import ru.liga.parcelmanager.model.enums.ProgramMode;
 import ru.liga.parcelmanager.util.JsonParser;
 import ru.liga.parcelmanager.util.TxtParser;
+import ru.liga.parcelmanager.validation.CommandValidator;
 
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
 @RequiredArgsConstructor
 public class InputCommandService {
+
+    private final Map<String, Command> commands;
 
     public static final String NUMBER_OF_TRUCKS_NOT_REQUIRED = "N";
     public static final String JSON_OUTPUT_TYPE = "json";
@@ -28,7 +33,7 @@ public class InputCommandService {
     public static final String EXIT_COMMAND = "exit";
     private final Pattern NUMBER_OF_TRUCKS_PATTERN = Pattern.compile("\\d+");
 
-    private final CommandValidationService commandValidator;
+    private final CommandValidator commandValidator;
 
     private final TxtParser txtParser;
     private final JsonParser jsonParser;
@@ -107,10 +112,5 @@ public class InputCommandService {
 
     public boolean isSelectProgramModeCommand(String command) {
         return command.equals(InputCommandService.LOADING_TRUCKS_COMMAND) || command.equals(InputCommandService.UNLOADING_TRUCKS_COMMAND);
-    }
-
-    // TODO добавить ресурс с начальным текстом и считывать из него
-    public boolean isStartCommand(String command) {
-        return command.equals("start");
     }
 }

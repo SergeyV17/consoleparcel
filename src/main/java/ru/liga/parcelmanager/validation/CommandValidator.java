@@ -1,4 +1,4 @@
-package ru.liga.parcelmanager.service;
+package ru.liga.parcelmanager.validation;
 
 import ru.liga.parcelmanager.exceptions.InvalidJsonException;
 import ru.liga.parcelmanager.exceptions.InvalidTxtException;
@@ -6,7 +6,7 @@ import ru.liga.parcelmanager.exceptions.InvalidTxtException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CommandValidationService {
+public class CommandValidator {
 
     private static final Integer FIRST_MATCHER_GROUP_NUMBER = 1;
     private static final Pattern TXT_FILE_PATTERN = Pattern.compile("(.+\\.txt)");

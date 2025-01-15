@@ -1,15 +1,19 @@
 package ru.liga.parcelmanager.model.entity;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
 @RequiredArgsConstructor
 public class Parcel {
 
-    private String name;
+    private final String name;
 
+    @Setter
     private String form;
 
+    @Setter
     private String symbol;
+
 }

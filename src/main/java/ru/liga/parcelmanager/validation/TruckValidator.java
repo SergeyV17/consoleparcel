@@ -1,4 +1,4 @@
-package ru.liga.parcelmanager.service;
+package ru.liga.parcelmanager.validation;
 
 import ru.liga.parcelmanager.model.entity.Truck;
 import ru.liga.parcelmanager.model.enums.LoadingMode;
@@ -6,7 +6,7 @@ import ru.liga.parcelmanager.processor.impl.loading.shared.NumberOfTrucksCalcula
 
 import java.util.List;
 
-public class TruckValidationService {
+public class TruckValidator {
 
     private static final int SEED = 0;
 
