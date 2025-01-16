@@ -2,83 +2,73 @@ package ru.liga.parcelmanager.processor.impl.input;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellOption;
 import ru.liga.parcelmanager.command.CommandInvoker;
-import ru.liga.parcelmanager.model.Output;
-import ru.liga.parcelmanager.model.entity.Truck;
-import ru.liga.parcelmanager.model.enums.LoadingMode;
-import ru.liga.parcelmanager.model.enums.OutputType;
-import ru.liga.parcelmanager.model.enums.ProgramMode;
-import ru.liga.parcelmanager.processor.InputProcessor;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-public class ConsoleInputProcessor implements InputProcessor {
+@ShellComponent
+public class ConsoleInputProcessor {
 
     private final CommandInvoker commandInvoker;
 
-    @Override
-    public void listen() {
-        do {
-            try {
-                log.info("Select program mode: \"loading trucks\", \"unloading trucks\" or press \"exit\"");
-                String command = scanner.nextLine();
-
-                if (inputCommandService.isExitCommand(command)) {
-                    log.info("Goodbye!");
-                    return;
-                }
-
-                if (inputCommandService.isSelectProgramModeCommand(command)) {
-                    ProgramMode programMode = inputCommandService.selectProgramModeCommand(command);
-                    log.info("Selected program mode: {}", programMode);
-
-                    Output<?> output = switch (programMode) {
-                        case LOADING_TRUCKS -> loadTrucks();
-                        case UNLOADING_TRUCKS -> unloadTrucks();
-                    };
-                    outputService.sendValuesToOutput(output);
-                    log.info("Output completed");
-                    continue;
-                }
-
-                log.error("Invalid command: {}. Try again or press \"exit\"", command);
-            }
-            catch (Exception e) {
-                log.error("An exception occurred {}. Please try again", e.getMessage());
-            }
-        }
-        while(true);
+    @ShellMethod
+    public void createParcel(
+            @ShellOption String name,
+            @ShellOption String form,
+            @ShellOption String symbol) {
+        commandInvoker.invoke("create -name " + name + " -form " + form + " -symbol " + symbol);
     }
 
-    private Output<String> unloadTrucks() {
-        log.info("Enter input json file path: ");
-        String jsonFileLine = scanner.nextLine();
-        return new Output<>(TRUCKS_FILE_NAME, OutputType.TXT, inputCommandService.unloadTrucksCommand(jsonFileLine));
+    @ShellMethod
+    public void deleteParcel(@ShellOption String name) {
+        commandInvoker.invoke("delete -name " + name);
     }
 
-    private Output<Truck> loadTrucks() {
-        log.info("Select loading mode: \"one by one\", \"loading to capacity\", \"uniform\"");
-        String loadingModeLine = scanner.nextLine();
-        LoadingMode loadingMode = inputCommandService.selectLoadingModeCommand(loadingModeLine);
-        log.info("Selected loading mode: {}", loadingMode);
+    @ShellMethod
+    public void findParcel(@ShellOption String name) {
+        commandInvoker.invoke("find -name " + name);
+    }
 
-        log.info("Select number of trucks or press \"N\" for default behavior: ");
-        String numberOfTrucksLine = scanner.nextLine();
-        Integer numberOfTrucks = inputCommandService.selectNumberOfTrucksCommand(numberOfTrucksLine);
+    @ShellMethod
+    public void editParcel(
+            @ShellOption String name,
+            @ShellOption String form,
+            @ShellOption String symbol) {
+        commandInvoker.invoke("edit -name " + name + " -form " + form + " -symbol " + symbol);
+    }
 
-        log.info("Select output type: \"console\", \"json\"");
-        String outputTypeLine = scanner.nextLine();
-        OutputType outputType = inputCommandService.selectOutputTypeCommand(outputTypeLine);
+    @ShellMethod
+    public void findAllParcels() {
+        commandInvoker.invoke("find-all");
+    }
 
-        log.info("Enter input file path: ");
-        String inputFilePath = scanner.nextLine();
-        List<Truck> trucks = inputCommandService.loadTrucksCommand(
-                inputFilePath,
-                loadingMode,
-                numberOfTrucks);
+    @ShellMethod
+    public void loadParcel(
+            @ShellOption String inputFile,
+            @ShellOption String trucks,
+            @ShellOption String type,
+            @ShellOption String outputType,
+            @ShellOption String outFileName) {
+        commandInvoker.invoke(
+                "load " +
+                        "-file " + inputFile +
+                        " -trucks " + trucks +
+                        " -type " + type +
+                        " -outputType " + outputType +
+                        " -outFileName " + outFileName);
+    }
 
-        return new Output<>(TRUCKS_FILE_NAME, outputType, trucks);
+    @ShellMethod
+    public void unloadParcel(
+            @ShellOption String inputFile,
+            @ShellOption String outputFile,
+            @ShellOption(defaultValue = "false") String withCount) {
+        commandInvoker.invoke("unload" +
+                "-input-file " + inputFile +
+                " -output-file " + outputFile +
+                " -with-count " + withCount);
     }
 }

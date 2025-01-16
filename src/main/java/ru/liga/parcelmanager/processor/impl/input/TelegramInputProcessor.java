@@ -1,25 +1,31 @@
 package ru.liga.parcelmanager.processor.impl.input;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.liga.parcelmanager.command.CommandInvoker;
-import ru.liga.parcelmanager.processor.InputProcessor;
+import ru.liga.parcelmanager.properties.TelegramProperties;
 
+@Slf4j
 @RequiredArgsConstructor
-public class TelegramInputProcessor extends TelegramLongPollingBot implements InputProcessor {
+public class TelegramInputProcessor extends TelegramLongPollingBot {
 
     private final CommandInvoker commandInvoker;
+    private final TelegramProperties telegramProperties;
 
     @Override
     public String getBotUsername() {
-        return "ParcelManagerBot";
+        return telegramProperties.getName();
     }
 
     @Override
     public String getBotToken() {
-        // TODO в конфиг
-        return "7928876755:AAFRE-kU_dqFmjbH6g603rqNFjIsiD6eYK8";
+        return telegramProperties.getToken();
     }
 
     @Override
@@ -30,8 +36,14 @@ public class TelegramInputProcessor extends TelegramLongPollingBot implements In
         }
     }
 
-    @Override
+    @PostConstruct
     public void listen() {
+        try {
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+            telegramBotsApi.registerBot(this);
+        } catch (TelegramApiException e) {
+            log.error("An exception occurred when registering bot {}", e.getMessage());
 
+        }
     }
 }

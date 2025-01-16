@@ -1,30 +1,29 @@
 package ru.liga.parcelmanager.command;
 
 import lombok.RequiredArgsConstructor;
+import ru.liga.parcelmanager.command.consts.ArgumentsNames;
 import ru.liga.parcelmanager.factory.ParcelFactory;
+import ru.liga.parcelmanager.model.entity.Parcel;
 import ru.liga.parcelmanager.service.ParcelService;
 import ru.liga.parcelmanager.validation.ParcelValidator;
 
 @RequiredArgsConstructor
-public class CreateCommand extends Command {
+public class CreateCommand extends Command<Void> {
 
     private final ParcelService parcelService;
     private final ParcelFactory parcelFactory;
     private final ParcelValidator parcelValidator;
 
     @Override
-    public void execute(String[] args) {
-        String name = getOptionalValue(args, "-name");
-        String form = getOptionalValue(args, "-form");
-        String symbol = getOptionalValue(args, "-symbol");
+    public Void execute(String[] args) {
+        String name = getArgumentValue(args, ArgumentsNames.NAME);
+        String form = getArgumentValue(args, ArgumentsNames.FORM);
+        String symbol = getArgumentValue(args, ArgumentsNames.SYMBOL);
 
-        validateParcel(name, form, symbol);
-        parcelService.createParcel(parcelFactory.createParcel(name, form, symbol));
-    }
+        Parcel parcel = parcelFactory.createParcel(name, form, symbol);
+        parcelValidator.validateParcel(parcel);
+        parcelService.createParcel(parcel);
 
-    private void validateParcel(String name, String form, String symbol) {
-        parcelValidator.validateParcelName(name);
-        parcelValidator.validateParcelForm(form);
-        parcelValidator.validateParcelSymbol(symbol);
+        return null;
     }
 }

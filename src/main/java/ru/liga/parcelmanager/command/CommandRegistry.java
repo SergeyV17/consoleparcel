@@ -1,14 +1,13 @@
 package ru.liga.parcelmanager.command;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class CommandRegistry {
 
-    private final HashMap<String, Command> commands = new HashMap<>();
+    private final Map<String, Command> commands;
 
-    // пока нет DI, оставляю регистрацию через публичный метод
-    public void registerCommand(String name, Command command) {
-        commands.put(name, command);
+    public CommandRegistry(Map<String, Command> commands) {
+        this.commands = commands;
     }
 
     public Command getCommand(String name) {

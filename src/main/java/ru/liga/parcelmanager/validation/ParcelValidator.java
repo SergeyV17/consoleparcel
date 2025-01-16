@@ -1,8 +1,15 @@
 package ru.liga.parcelmanager.validation;
 
 import ru.liga.parcelmanager.exceptions.InvalidParcelFormException;
+import ru.liga.parcelmanager.model.entity.Parcel;
 
 public class ParcelValidator {
+
+    public void validateParcel(Parcel parcel) {
+        validateParcelName(parcel.getName());
+        validateParcelForm(parcel.getForm());
+        validateParcelSymbol(parcel.getSymbol());
+    }
 
     public void validateParcelForm(String form) {
         // TODO SERGEY VLASENKO реализовать валидацию формы посылки

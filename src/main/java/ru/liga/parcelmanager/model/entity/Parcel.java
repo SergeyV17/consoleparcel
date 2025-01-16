@@ -8,12 +8,17 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class Parcel {
 
+    public Parcel(String name, String form, String symbol) {
+        this.name = name;
+        this.form = form;
+        this.symbol = symbol;
+    }
+
     private final String name;
 
     @Setter
-    private String form;
+    public String form;
 
     @Setter
-    private String symbol;
-
+    public String symbol;
 }

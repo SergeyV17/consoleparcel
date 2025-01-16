@@ -3,15 +3,14 @@ package ru.liga.parcelmanager.repository;
 import ru.liga.parcelmanager.exceptions.NotFoundException;
 import ru.liga.parcelmanager.model.entity.Parcel;
 
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class ParcelRepository {
 
-    private final ArrayList<Parcel> parcels;
+    private final List<Parcel> parcels;
 
-    public ParcelRepository(ArrayList<Parcel> initialParcels) {
-        this.parcels = initialParcels;
+    public ParcelRepository(List<Parcel> initialParcels) {
+        parcels = initialParcels;
     }
 
     public void createParcel(Parcel parcel) {
@@ -32,7 +31,7 @@ public class ParcelRepository {
         return parcel;
     }
 
-    public ArrayList<Parcel> findParcels() {
+    public List<Parcel> findAllParcels() {
         return parcels;
     }
 

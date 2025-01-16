@@ -1,0 +1,7 @@
+spring:
+    application:
+        name: parcel
+
+telegram:
+    token: "7928876755:AAFRE-kU_dqFmjbH6g603rqNFjIsiD6eYK8"
+    name: "ParcelManagerBot"
